@@ -1,0 +1,41 @@
+<{include file="topd/goods/Share.html"}>
+<div class="FenXiao_myfenxiao_right">
+    <p class="FenXiao_myfenxiao_produce">店铺信息</p>
+    <div class="myfenxiao_con">
+        <div class="myfenxiao_left">
+            <{if $userInfo.fenxiaodp.fenxiao_simg == ''}>
+            <img src='/index.png' class="myfenxiao_left_img">
+            <{else}>
+            <img src='<{$fenxiaodp.fenxiao_simg|storager:s}>' class="myfenxiao_left_img">
+            <{/if}>
+        </div>
+        <div class="myfenxiao_con_right">
+            <h3 class="vippu"><{$fenxiaodp.fenxiao_dpname}>  <span class="kehushu">（历史点击量：<{$fenxiaodp.fenxiao_clk2}>）</span></h3>
+            <dl class="myfenxiao_vipIn">
+                <dt>店主：<{$fenxiaodp.fenxiao_name}> （<a  href="<{url action=topc_ctl_list@fxindex shopId=$fenxiaodp.user_id}>" class="myshopp">我的店铺</a>）</dt>
+                <dt>区域：<{$fenxiaodp.regions}></dt>
+                <dt>
+                <div class="shareParent" style="float: left;">
+                    <div style=" width: auto;" class="yijianshare" onclick="shareObj(this,'分享<{$fenxiaodp.fenxiao_name}>的店铺','<{url action=topc_ctl_list@fxindex shopId=$fenxiaodp.user_id}>','分享<{$fenxiaodp.fenxiao_name}>的店铺','http://www.hdvg.tv/public/index.png')">
+                        <a style="font-size: 14px; padding-left: 0px; width: auto;" href="javascript:;" class="fenxiao_share">分享我的店铺</a>
+                    </div>
+                </div>
+                <div class="shareParent">
+                    <div class="yijianshare" style=" width: auto;" onclick="shareObj(this,'<{$userInfo.fenxiaodp.fenxiao_name}>推荐你开通恒大公众店','<{url action=topd_ctl_index@index fenxiao_tuijuan=$fenxiaodp.user_id}>','<{$fenxiaodp.fenxiao_name}>推荐你开通恒大公众店','http://www.hdvg.tv/public/index.png')">
+                        <a style="font-size: 14px; padding-left: 0px; width: auto;" href="javascript:;" class="fenxiao_share">推荐开店</a>
+                    </div>
+                </div>
+                </dt>
+            </dl>
+        </div>
+    </div>
+    <p class="FenXiao_myfenxiao_detail">我的店铺概况</p>
+    <div class="myfenxiao_detail">
+        <ul class="myfenxiao_detail_ul clearfix">
+            <li><span>今日点击量</span><em><{$fenxiaodp.fenxiao_clk1}></em></li>
+            <li><span>产品订单</span><em><{$pd.shop}>单/<{$pd.shopprice|cur}></em></li>
+            <li><span>推荐开店</span><em><{$pd.topd}>单/<{$pd.topdprice|cur}></em></li>
+            <li class="myfenxiao_detail_li"><span>演唱会门票</span><em><{$pd.yhk}>单/<{$pd.yhkprice|cur}></em></li>
+        </ul>
+    </div>
+</div>

@@ -1,0 +1,126 @@
+<div class="report">
+  <div class="box box-primary">
+    <div class="box-body">
+      <div class="report-filter bg-info report-filter-large">
+        <span>账期时间</span>
+        <div class="date-picker" id="start">
+            <div class="input-group input-group-sm">
+              <div class="input-group-addon">
+                <i class="fa fa-calendar"></i>
+              </div>
+              <input type="text" class="form-control pull-right reservation" name="timearea" id="timearea" value="<{$timearea}>">
+            </div>
+        </div>
+        <span>结算类型</span>
+        <select name="settlement_type" id="settlement_type">
+          <option value="">全部</option>
+          <option value="1" <{if $settlement_type=='1'}> selected <{/if}>>未结算</option>
+          <option value="2" <{if $settlement_type=='2'}> selected <{/if}>>已结算</option>
+        </select>
+
+        <a href="javascript:void(0);" id="settle_search" class="btn btn-warning btn-sm">检索</a>
+      </div>
+      <table class="table table-primary table-bordered text-center table-valign-middle">
+        <thead>
+          <tr>
+            <td>账单时间</td>
+            <td>账单编号</td>
+            <td>产品单</td>
+            <td>店铺单</td>
+            <td>演唱会</td>
+            <td>产品收入</td>
+            <td>开店收入</td>
+            <td>演唱会收入</td>
+            <td>总收益</td>
+            <td>结算状态</td>
+            <td>结算时间</td>
+          </tr>
+        </thead>
+        <tbody>
+          <{foreach from=$settlement_list item=item}>
+          <tr>
+            <td>
+              <div><{$item.account_start_time|cdate:'FDATE'}></div>
+              <div>~</div>
+              <div><{$item.account_end_time|cdate:'FDATE'}></div>
+            </td>
+            <td>
+              <{$item.settlement_no}>
+            </td>
+            <td>
+              <{$item.shopnum}>
+            </td>
+            <td>
+              <{$item.topdnum}>
+            </td>
+            <td>
+              <{$item.concertnum}>
+            </td>
+            <td>
+              <{$item.shopprice|cur}>
+            </td>
+            <td>
+              <{$item.topdprice|cur}>
+            </td>
+            <td>
+              <{$item.concertprice|cur}>
+            </td>
+            <td style="color: #FF0000;">
+              <{$item.shopprice + $item.topdprice + $item.concertprice |cur}>
+            </td>
+            <td>
+              <{$item.settlement_status|json2value:'{"1":"未结算","2":"已结算"}'}>
+            </td>
+            <td>
+              <{if $item.account_time}>
+              <{$item.account_time|cdate:'FDATE'}>
+              <{else}>
+              请耐心等待结算
+              <{/if}>
+            </td>
+          </tr>
+          <{/foreach}>
+        </tbody>
+      </table>
+      <div class="page-bar bg-gray">
+        <div class="pull-right">
+          <{pagers data=$pagers}>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+$('.report input[type=radio]:checked').trigger('change');
+$('.reservation').daterangepicker({
+  format: 'YYYY/MM/DD',
+  opens: 'right'
+});
+
+$("#settle_search").click(function() {
+    var timearea=$("#timearea").val();
+    var settlement_type = $('#settlement_type').val();
+    window.location.href="<{url action=topd_ctl_clearing_settlement@index}>?timearea="+timearea+'&settlement_type='+settlement_type;
+});
+
+
+$(document).ready(
+  function() {
+    $(".sidebar .sidebar-menu li a i.glyphicon").eq(1).removeClass("glyphicon-list-alt").addClass("glyphicon-cloud");
+  }
+);
+
+$('.export-filter').click(function (e) {
+    var timearea = $('#timearea').val();
+    var settlement_type = $('#settlement_type').val();
+    var filter = '{"timearea":"'+timearea+'","settlement_status":"'+settlement_type+'"}';
+    $(this).attr('data-value',filter);
+})
+
+$('.download-settlement').click(function (e) {
+    var timearea = $('#timearea').val();
+    var filter = '{"timearea":"'+timearea+'"}';
+    $(this).attr('data-value',filter);
+})
+</script>

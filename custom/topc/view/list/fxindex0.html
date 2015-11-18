@@ -1,0 +1,58 @@
+ <style>
+ 	#main{ background-image:url('/app/topc/statics/images/HDVG-bg.jpg') !important;}
+ </style>
+
+ <script type="text/javascript">
+	$(function(){
+		$('.shoplista .lista').hover(function(e) {
+			$(this).closest('.shoplist').find('a').stop().animate({'margin-left':'0px'},500);
+        	$(this).stop().animate({'marginLeft':'-8px'},500);
+        },function(){
+			$('.shoplista .lista').stop().animate({'margin-left':'0px'},500);
+		});
+	})
+	
+    function tz(){
+        var key = $("#keyword1").val();
+        var str = window.location.origin + window.location.pathname + "?shopId=<{$shopId}>&n="+key;
+        window.location.href = str;
+    }
+	 function tz1(){
+        var str = window.location.origin + window.location.pathname + "?shopId=<{$shopId}>";
+        window.location.href = str;
+    }
+</script>
+        
+        <div class="mystorecon">
+			<div class="stoerin">
+				<h1 class="storelogo"><a href="javascript:;">         
+                 <{if $fenxiao.fenxiao_simg != ''}>
+                <img src="<{$fenxiao.fenxiao_simg|storager:s}>" height="105" width="105" alt="<{$fenxiao.fenxiao_dpname}>" class="slimg" />
+                <{else}>
+                <img src="/index.png" height="105" width="105" alt="<{$fenxiao.fenxiao_dpname}>" class="slimg" />
+                <{/if}></a></h1>
+				<h3 class="storelogop"><{$fenxiao.fenxiao_dpname}></h3>
+				<div class="msccenter">
+					<!--<input type="text" class="inpleft" />
+					<input type="button" class="inpright" value="搜索" />-->
+                     <input type="text" class="inpleft"  value="<{$key}>" name="keyword1" id="keyword1"/>
+                     <input type="button" class="inpright" onclick="tz();" value="店内搜索"  style="cursor:pointer;" />
+                     <input type="button" class="inpright" onclick="tz1();" value="查看全部" style="cursor:pointer;"/>
+				</div>
+			</div>
+        </div>
+       
+        <div class="mystorelist clearfix">
+            <ul class="itemlist">
+                <{foreach from=$items item=item}>
+                <li>
+                  <div class="shoplist">
+                        <a href="<{url action=topc_ctl_item@index item_id=$item.item_id shopId=$shopId}>" class="lista" target="_blank"><img src="<{$item.image_default_id|default:$image_default_id.M.default_image|storager:'m'}>" width="210" height="230" /></a>
+                        <a class="listp" href="<{url action=topc_ctl_item@index item_id=$item.item_id shopId=$shopId}>" target="_blank" title="<{$item.title}>"><{$item.title}></a>
+                        <span class="listlast"><{$item.price|cur}><{if $item.promotion_tags}><span class="discount-tag">惠</span><{/if}></span>
+                  </div>
+                </li>
+                <{/foreach}> 
+            </ul>
+        </div>      
+ <{pagers data=$pagers}> 

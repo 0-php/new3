@@ -1,0 +1,231 @@
+
+<div class="panel panel-outter">
+	<div class="panel-heading">
+		<center> <h1>会员查询</h1></center>
+	</div>
+	<div class="panel-body">
+		<div class="clearfix">
+			<!--   <div> -->
+			<div>
+				<span class="order-form-w1" style="display:inline-block;vertical-align:11px;line-height:34px;">按代理区域筛选：</span>
+				<select id="selArea">
+					<option value="">---按代理区域筛选---</option>
+					<{foreach from=$areaName item=vall key=k}>
+					<option value="<{$k}>" > <{$vall}></option>
+					<{/foreach}>
+				</select>
+				<select id="areaNameSecond">
+				</select>
+				<select id="areaNameThree">
+				</select>
+				<!--用于存储Select框的区域编码-->
+				<div name="one"  id="one"></div>
+				<div name="two"  id="two"></div>
+				<div name="three"  id="three"></div>
+			</div>
+			<br>
+			<!--  <div class="col-xs-6">  -->
+			<span class="order-form-w1" style="display:inline-block;vertical-align:11px;line-height:34px;">按会员注册日期筛选：</span>
+			<span class="input-group input-group-sm col-xs-3" style="display:inline-table;">
+				<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+				<input type="text" class="form-control pull-right reservation" style="max-width:100%;" readonly name="regtime" id="regtime" value="">
+			</span>
+			
+			<!--  </div> -->
+			<br>
+			<br>
+			<span class="order-form-w1" style="display:inline-block;vertical-align:11px;line-height:34px;">按会员等级筛选：</span>
+			<select id="selGradeId" class="selGradeId">
+				<option selected="selected"  >---按会员等级筛选---</option>
+				<option value="1">初级会员</option>
+				<option value="2">中级会员</option>
+				<option value="3">高级会员</option>
+				<option value="4">顶级会员</option>
+				<option value="5">骨灰初级</option>
+				<option value="6">骨灰中级</option>
+				<option value="7">骨灰高级</option>
+				<option value="8">骨灰顶级</option>
+			</select>
+			<input type="button" id="btnRegTime" value="搜索"/>
+			<br>
+			<span class="order-form-w1" style="display:inline-block;vertical-align:11px;line-height:34px;">按昵称搜索：</span>
+			<input type="text" id="txtName" name="txtName">
+			<input type="button" id="btnName" value="昵称搜索"/>
+		</div>
+	</div>
+</div>
+<div class="box box-primary">
+	<div class="box-header">
+		<h3 class="box-title">会员统计</h3><a href="<{url action=agent_ctl_member_list@index}>" class="pull-right text-blue">查看详细></a>
+		<br>
+		<table class="table table-bordered text-center">
+			<thead>
+				<tr >
+					<th rowspan="2" >区域</th>
+					<th colspan="8">会员等级</th>	
+				</tr>  
+				<tr>					
+					<td>初级会员</td>
+					<td>中级会员</td>
+					<td>高级会员</td>
+					<td>顶级会员</td>
+					<td>骨灰初级</td>
+					<td>骨灰中级</td>
+					<td>骨灰高级</td>
+					<td>骨灰顶级</td>
+				</tr>
+			</thead>
+			<tbody id="statisticTbody">   
+				<tr>
+					<{foreach from=$grade item=gradeValue key=gradeKey}>
+						<td><{$gradeValue[0]["gradeTol"]}></td>
+					<{/foreach}>
+				</tr>
+			</tbody>
+		</table>	
+	</div> 
+	<div class="box-body">
+		<div class="text-gray">会员数据</div>
+		<form action="" method="post" role="form" id="FormData">
+			<table class="table table-bordered text-center">
+				<thead>
+					<tr>
+						<th >昵称</th>
+						<th>会员等级</th>
+						<th>真实姓名</th>
+						<th>性别</th>
+						<th>积分</th>
+						<th>推广来源URL</th>
+						<th>注册时间</th>
+						<th>地址</th>
+						<td>经验值</td>
+						<td>语言</tbodytd>
+							<td>职业</td>
+						</tr>    
+					</thead>
+					<tbody id="Div">
+						<{foreach from=$user item=user1 key=key}>	
+						
+						<{foreach from=$user1 item=user key=ky}>
+						<tr>
+							<td><{$user.name}></td>
+							<td>
+								<{if $user.grade_id=="1"}>初级会员
+								<{elseif $user.grade_id=="2"}>中级会员
+								<{elseif $user.grade_id=="3"}>高级会员
+								<{elseif $user.grade_id=="4"}>顶级会员
+								<{elseif $user.grade_id=="5"}>骨灰初级
+								<{elseif $user.grade_id=="6"}>骨灰中级
+								<{elseif $user.grade_id=="7"}>骨灰高级
+								<{elseif $user.grade_id=="8"}>骨灰顶级
+								<{/if}>
+							</td>
+							<td><{$user.username}></td>
+							<td>
+								<{if $user.sex =="0"}>女
+								<{elseif $user.sex =="1"}>男
+								<{elseif $user.sex =="2"}>保密
+								<{/if}>
+							</td>
+							<td><{$user.point}></td>
+							<td><{$user.refer_url}></td>
+							<td><{$user.regtime}></td>
+							<td><{$user.area}></td>
+							<td><{$user.experience}></td>
+							<td><{$user.lang}></td>
+							<td><{$user.vocation}></td>
+						</tr>
+						<{/foreach}> 
+						<{/foreach}> 
+						<tr>
+							<td colspan="11">
+								<center>
+									<{pagers data=$pagers }>
+									<{if $pagers.total > 0 }>
+									<span class="page-number">共&nbsp;<em class="text-aqua"><{$pagers.total}></em>&nbsp;页</span>
+									<{/if}>
+								</center>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</form>
+		</div>
+	</div>
+</div>
+</div>
+
+<script>
+  //格式化时间日期
+  $('.reservation').daterangepicker({
+  	format: 'YYYY/MM/DD',
+  	opens: 'right'
+  });
+
+  
+
+
+
+
+
+$("#areaNameSecond").change(function(){
+	var selAreaSec = "selArea=" + $('#areaNameSecond').val();
+	$.ajax({
+		type:'POST',
+		url:"<{url action=agent_ctl_member_list@searchArea}>",
+		dataType:'json',
+		data:selAreaSec,
+		success:function(rs){
+	
+	var sel='<option value="" select="selected">---按代理区域筛选---</option>';
+
+	$.each(rs.areaNameSecond,function(n1,value1){
+		sel +='<option value="'+n1+'"  >'+value1+'</option>';
+	})
+
+	$("#areaNameThree").html(sel);
+	$("#two").html('<input type="hidden"  value="'+ $('#areaNameSecond').val() +'" id="txtTwo" name="txtTwo"/>');
+
+}
+});
+})
+
+
+$("#areaNameThree").change(function(){
+	$("#three").html('<input type="hidden"  value="'+ $('#areaNameThree').val() +'" id="txtThree" name="txtThree"/>');
+})
+
+$("#selArea").change(function() {
+	//alert($('#selArea').val());
+	var selArea = "selArea=" + $('#selArea').val();
+	$.ajax({
+		type:'POST',
+		url:"<{url action=agent_ctl_member_list@searchArea}>",
+		dataType:'json',
+		data:selArea,
+		success:function(rs){
+				
+				var sel='<option value="" select="selected">---按代理区域筛选---</option>';
+				$.each(rs.areaNameSecond,function(n1,value1){
+					sel +='<option value="'+n1+'"  >'+value1+'</option>';
+				})
+				$("#areaNameSecond").html(sel);
+				$("#one").html('<input type="hidden"  value="'+ $('#selArea').val() +'" id="txtOne" name="txtOne"/>');
+
+			}
+		});
+})
+
+
+$("#btnName").click(function() {
+	var name = $("#txtName").val() ;
+	window.location.href="<{url action=agent_ctl_member_list@index}>"+"?name="+name ;
+	
+})
+
+$("#btnRegTime").click(function(){
+
+	window.location.href="<{url action=agent_ctl_member_list@index}>" ;
+
+})
+</script>

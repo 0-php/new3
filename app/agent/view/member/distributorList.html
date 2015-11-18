@@ -1,0 +1,478 @@
+
+<div class="panel panel-outter">
+	<div class="panel-heading">
+		<center> <h1>分销商统计</h1></center>
+
+
+
+	</div>
+
+	<div class="panel-body">
+		<div class="clearfix">
+
+			<!--  <div class="col-xs-6">  -->
+			<span class="order-form-w1" style="display:inline-block;vertical-align:11px;line-height:34px;">按会员注册日期筛选：</span>
+			<span class="input-group input-group-sm col-xs-3" style="display:inline-table;">
+				<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+				<input type="text" class="form-control pull-right reservation" style="max-width:100%;" readonly name="regtime" id="regtime" value="">
+				
+			</span>
+			<input type="button" id="btnRegTime" value="搜索"/>
+			<!--  </div> -->
+			<br>
+			<!--   <div> -->
+			
+			<div>
+				<span class="order-form-w1" style="display:inline-block;vertical-align:11px;line-height:34px;">按代理区域筛选：</span>
+				<select id="selArea">
+					<option selected="selected">---按代理区域筛选---</option>
+					<!-- <{foreach from=$user[0] item=val key=k}>
+					<option value="<{$val.addr}>"  > <{$val.addr}></option>
+					<{/foreach}> -->
+					<{foreach from=$areaName item=vall key=k}>
+					    
+					<option value="<{$k}>" > <{$vall}></option>
+					<{/foreach}>
+				</select>
+				<select id="areaNameSecond">
+				</select>
+				<select id="areaNameThree">
+				</select>
+				
+			</div>
+			
+
+			<br>
+			<span class="order-form-w1" style="display:inline-block;vertical-align:11px;line-height:34px;">按会员等级筛选：</span>
+			<select id="selGradeId" class="selGradeId">
+				<option selected="selected"  >---按会员等级筛选---</option>
+				<option value="1">初级会员</option>
+				<option value="2">中级会员</option>
+				<option value="3">高级会员</option>
+				<option value="4">顶级会员</option>
+				<option value="5">骨灰初级</option>
+				<option value="6">骨灰中级</option>
+				<option value="7">骨灰高级</option>
+				<option value="8">骨灰顶级</option>
+			</select>
+			<br>
+			<span class="order-form-w1" style="display:inline-block;vertical-align:11px;line-height:34px;">按昵称搜索：</span>
+			<input type="text" id="txtName" name="txtName">
+			<input type="button" id="btnName" value="昵称搜索"/>
+
+
+		</div>
+
+		
+
+
+	</div>
+
+</div>
+
+<div class="box box-primary">
+	<div class="box-header">
+		<h3 class="box-title">会员统计</h3><a href="<{url action=agent_ctl_member_list@index}>" class="pull-right text-blue">查看详细></a>
+		<br>
+		<table class="table table-bordered text-center">
+			<thead>
+				<tr >
+					<th rowspan="2" >区域</th>
+					<th colspan="8">会员等级</th>	
+				</tr>  
+				<tr>
+					
+					<td>初级会员</td>
+					<td>中级会员</td>
+					<td>高级会员</td>
+					<td>顶级会员</td>
+					<td>骨灰初级</td>
+					<td>骨灰中级</td>
+					<td>骨灰高级</td>
+					<td>骨灰顶级</td>
+				</tr>
+			</thead>
+			<tbody id="statisticTbody">   
+			</tbody>
+		</table>
+		
+	</div> 
+	<div class="box-body">
+		<div class="text-gray">会员数据</div>
+		<form action="" method="post" role="form">
+			<table class="table table-bordered text-center">
+				<thead>
+					<tr>
+						<th >昵称</th>
+						<th>会员等级</th>
+						<th>真实姓名</th>
+						<th>性别</th>
+						<th>积分</th>
+						<th>推广来源URL</th>
+						<th>注册时间</th>
+						<th>地址</th>
+						<td>经验值</td>
+						<td>语言</tbodytd>
+							<td>职业</td>
+						</tr>    
+					</thead>
+					<tbody id="Div">
+
+						<{foreach from=$user item=user1 key=key}>	
+
+						<{foreach from=$user1 item=user key=ky}>
+						<tr>
+							<td><{$user.name}></td>
+							<td><{$user.grade_id}></td>
+							<td><{$user.username}></td>
+							<td><{$user.sex}></td>
+							<td><{$user.point}></td>
+							<td><{$user.refer_url}></td>
+							<td><{$user.regtime}></td>
+							<td><{$user.area}></td>
+							<td><{$user.experience}></td>
+							<td><{$user.lang}></td>
+							<td><{$user.vocation}></td>
+						</tr>
+						<{/foreach}> 
+						<{/foreach}> 
+
+
+						<tr>
+							<td colspan="11">
+								<center>
+									<{pagers data=$pagers }>
+									<{if $pagers.total > 0 }>
+									<span class="page-number">共&nbsp;<em class="text-aqua"><{$pagers.total}></em>&nbsp;页</span>
+									<{/if}>
+								</center>
+							</td>
+						</tr>
+					</tbody>
+
+				</table>
+			</form>
+		</div>
+	</div>
+</div>
+
+
+</div>
+
+<script>
+	$('.reservation').daterangepicker({
+		format: 'YYYY/MM/DD',
+		opens: 'right'
+	});
+
+	$("#btnRegTime").click(function() {
+		if( $("#regtime").val()=="")
+		{
+			alert("请选择时间段");
+		}else
+		{
+
+			var regtime = "regtime=" + $("#regtime").val();
+			$.ajax({
+				type:'POST',
+				url:"<{url action=agent_ctl_member_list@searchRegtime}>",
+				dataType:'json',
+				data:regtime,
+				success:function(rs){
+					/*var str="";
+					$.each(rs.user[1][0],function(n,value){
+						if(n == "name")
+						{
+							str += "<tr><td>"+value+"</td>";
+						}else if(n == "vocation")
+						{
+							str += "<td>"+value+"</td></tr>";
+						}else
+						{
+							str += "<td>"+value+"</td>";
+						}	
+					})
+
+			$("#Div").html(str);*/
+			var str="";
+			$.each(rs.user,function(n,value){
+				$.each(value,function(n1,value1){
+					$.each(value1,function(n2,value2){
+						if(n2 == "name")
+						{
+							str+="<tr><td>"+value2+"</td>";
+						}else if(n2 == "vocation")
+						{
+							str+="<td>"+value2+"</td></tr>";
+						}else
+						{
+							str+="<td>"+value2+"</td>";
+						}	
+					})
+				})
+			})
+			$("#Div").html(str);
+
+		}
+	});
+		}
+
+	})
+
+
+$("#selGradeId").change(function() {
+
+	var selGradeId = "selGradeId=" + $('#selGradeId').val();
+	$.ajax({
+		type:'POST',
+		url:"<{url action=agent_ctl_member_list@searchGradeId}>",
+		dataType:'json',
+		data:selGradeId,
+		success:function(rs){
+			var str="";
+				/*$.each(rs.user[0][0],function(n,value){
+					if(n == "name")
+					{
+						str += "<tr><td>"+value+"</td>";
+					}else if(n == "vocation")
+					{
+						str += "<td>"+value+"</td></tr>";
+					}else
+					{
+						str += "<td>"+value+"</td>";
+					}	
+				})*/
+	$.each(rs.user,function(n,value){
+		$.each(value,function(n1,value1){
+			$.each(value1,function(n2,value2){
+				if(n2 == "name")
+				{
+					str+="<tr><td>"+value2+"</td>";
+				}else if(n2 == "vocation")
+				{
+					str+="<td>"+value2+"</td></tr>";
+				}else
+				{
+					str+="<td>"+value2+"</td>";
+				}	
+			})
+		})
+	})
+	$("#Div").html(str);
+}
+});
+})
+
+$("#areaNameThree").change(function(){
+	var selAreaThree = "selArea=" + $('#areaNameThree').val();
+
+	$.ajax({
+		type:'POST',
+		url:"<{url action=agent_ctl_member_list@searchAreaThree}>",
+		dataType:'json',
+		data:selAreaThree,
+		success:function(rs){
+			var str="";//用于会员数据表格
+			
+			var strStatisticTbody="<tr><td>"  + rs.areaName1 +"</td>" ;//用于会员统计表格
+			$.each(rs.user,function(n,value){
+				$.each(value,function(n1,value1){
+					$.each(value1,function(n2,value2){
+						if(n2 == "name")
+						{
+							str+="<tr><td>"+value2+"</td>";
+						}else if(n2 == "vocation")
+						{
+							str+="<td>"+value2+"</td></tr>";
+						}else
+						{
+							str+="<td>"+value2+"</td>";
+						}	
+					})
+				})
+			})
+
+			//用于会员统计列表
+			$.each(rs.grade1,function(n,value){
+				strStatisticTbody+="<td>"+value[0].gradeTol + "(位)</td>";
+			})
+			strStatisticTbody += "</tr>";
+			
+			$("#statisticTbody").html(strStatisticTbody);
+			$("#Div").html(str);
+
+		}
+	})
+})
+
+
+
+
+
+
+
+
+$("#areaNameSecond").change(function(){
+	var selAreaSec = "selArea=" + $('#areaNameSecond').val();
+	$.ajax({
+		type:'POST',
+		url:"<{url action=agent_ctl_member_list@searchArea}>",
+		dataType:'json',
+		data:selAreaSec,
+		success:function(rs){
+
+			var str="";//字符串str用于会员数据
+			var strStatisticTbody="<tr><td>"  + rs.areaName1 +"</td>" ;//用于会员统计表格
+
+
+			/*$.each(rs.user[0][0],function(n,value){
+				if(n == "name")
+				{
+					str += "<tr><td>"+value+"</td>";
+				}else if(n == "vocation")
+				{
+					str += "<td>"+value+"</td></tr>";
+				}else
+				{
+					str += "<td>"+value+"</td>";
+				}	
+			})*/
+	$.each(rs.user,function(n,value){
+		$.each(value,function(n1,value1){
+			$.each(value1,function(n2,value2){
+				if(n2 == "name")
+				{
+					str+="<tr><td>"+value2+"</td>";
+				}else if(n2 == "vocation")
+				{
+					str+="<td>"+value2+"</td></tr>";
+				}else
+				{
+					str+="<td>"+value2+"</td>";
+				}	
+			})
+		})
+	})
+	$("#Div").html(str);
+	var sel='<option selected="selected">---按代理区域筛选---</option>';
+
+	$.each(rs.areaNameSecond,function(n1,value1){
+		sel +='<option value="'+n1+'"  >'+value1+'</option>';
+	})
+
+	$("#areaNameThree").html(sel);
+	//用于会员统计列表
+	$.each(rs.grade1,function(n,value){
+		strStatisticTbody+="<td>"+value[0].gradeTol + "(位)</td>";
+	})
+	strStatisticTbody += "</tr>";
+	
+	$("#statisticTbody").html(strStatisticTbody);
+/*	if(rs.nextSel!="0")
+	{
+		$('#areaNameThree').html(sel);
+	}*/
+
+}
+});
+})
+
+$("#selArea").change(function() {
+	//alert($('#selArea').val());
+	var selArea = "selArea=" + $('#selArea').val();
+	$.ajax({
+		type:'POST',
+		url:"<{url action=agent_ctl_member_list@searchArea}>",
+		dataType:'json',
+		data:selArea,
+		success:function(rs){
+			var str="";//用于会员数据表格
+				var strStatisticTbody="<tr><td>"  + rs.areaName1 +"</td>" ;//用于会员统计表格
+				
+				$.each(rs.user,function(n,value){
+					$.each(value,function(n1,value1){
+						$.each(value1,function(n2,value2){
+
+							if(n2 == "name")
+							{
+								str+="<tr><td>"+value2+"</td>";
+							}else if(n2 == "vocation")
+							{
+								str+="<td>"+value2+"</td></tr>";
+							}else
+							{
+								str+="<td>"+value2+"</td>";
+							}	
+						})
+					})
+				})
+				
+				
+
+				$("#Div").html(str);
+				var sel='<option selected="selected">---按代理区域筛选---</option>';
+				$.each(rs.areaNameSecond,function(n1,value1){
+					sel +='<option value="'+n1+'"  >'+value1+'</option>';
+				})
+				
+				$("#areaNameSecond").html(sel);
+			//用于会员统计列表
+			$.each(rs.grade1,function(n,value){
+				strStatisticTbody+="<td>"+value[0].gradeTol + "(位)</td>";
+			})
+			strStatisticTbody += "</tr>";
+			$("#statisticTbody").html(strStatisticTbody);
+			
+			
+		}
+	});
+})
+
+
+$("#btnName").click(function() {
+	var name ="name=" + $("#txtName").val() ;
+	$.ajax({
+		type:'POST',
+		url:"<{url action=agent_ctl_member_list@searchName}>",
+		dataType:'json',
+		data:name,
+		success:function(rs){
+
+
+			var str="";
+				/*$.each(rs.user[0][0],function(n,value){
+
+					if(n == "name")
+					{
+						str += "<tr><td>"+value+"</td>";
+					}else if(n == "vocation")
+					{
+						str += "<td>"+value+"</td></tr>";
+					}else
+					{
+						str += "<td>"+value+"</td>";
+					}	
+				})*/
+	$.each(rs.user,function(n,value){
+		$.each(value,function(n1,value1){
+			$.each(value1,function(n2,value2){
+				if(n2 == "name")
+				{
+					str+="<tr><td>"+value2+"</td>";
+				}else if(n2 == "vocation")
+				{
+					str+="<td>"+value2+"</td></tr>";
+				}else
+				{
+					str+="<td>"+value2+"</td>";
+				}	
+			})
+		})
+	})
+
+
+	$("#Div").html(str);
+}
+});
+})
+</script>

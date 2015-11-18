@@ -1,0 +1,22 @@
+<desktop>
+<permissions>
+    <permission id="hdvg" display='true' parent='0' workground='syshdtj.wrokground.hdvg'>HDVG报表</permission>
+    <permission id="hdvgjs" display='true' parent='0' workground='syshdtj.wrokground.hdvg'>提成结算</permission>
+</permissions>
+
+<workground name="结算报表" id="syshdtj.wrokground.hdvg" controller="admin_hdvg" action="index" order='80'>
+    <menugroup name="HDVG报表">
+        <menu controller='admin_hdvg' action='index' permission='hdvg' display='true' order='20'>详细报表</menu>
+        <menu controller='admin_day' action='index' permission='hdvg' display='true' order='30'>日结报表</menu>
+        <menu controller='admin_month' action='index' permission='hdvg' display='true' order='30'>月结报表</menu>
+    </menugroup>
+    <menugroup name="提成结算">
+        <menu controller='admin_shop' action='index' permission='hdvgjs' display='true' order='20'>供应商结算</menu>
+        <menu controller='admin_topd' action='index' permission='hdvgjs' display='true' order='30'>公众店铺结算</menu>
+        <menu controller='admin_concert' action='index' permission='hdvgjs' display='true' order='30'>代理商结算</menu>
+        <menu controller='admin_hd' action='index' permission='hdvgjs' display='true' order='30'>恒大微购结算</menu>
+    </menugroup>
+</workground>
+
+</desktop>
+

@@ -1,0 +1,44 @@
+<div class="box box-primary">
+  <div class="box-header">
+    <h3 class="box-title">商家运营概况</h3><a href="<{url action=topd_ctl_sysstat_sysbusiness@index}>" class="pull-right text-blue">查看详细></a>
+  </div><!-- /.box-header -->
+  <div class="box-body">
+    <div class="text-gray">业务数据</div>
+    <table class="table table-bordered text-center">
+      <thead>
+        <tr>
+          <th class="text-right">时间</th>
+          <th> 产品订单</th>
+          <th> 推荐开店</th>
+          <th> 演唱会订单</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="text-right">昨日</td>
+          <td><{$yesterday.complete_trade|default:0}></td>
+          <td><{$yesterday.ready_trade|default:0}></td>
+          <td><{$yesterday.ready_send_trade|default:0}></td>
+        </tr>
+        <tr>
+          <td class="text-right">前日</td>
+          <td><{$beforInfo.complete_trade|default:0}></td>
+          <td><{$beforInfo.ready_trade|default:0}></td>
+          <td><{$beforInfo.ready_trade|default:0}></td>
+        </tr>
+        <tr>
+          <td class="text-right">近7天</td>
+          <td><{$weekInfo.complete_trade|default:0}></td>
+          <td><{$weekInfo.ready_trade|default:0}></td>
+          <td><{$weekInfo.ready_send_trade|default:0}></td>
+        </tr>
+        <tr>
+          <td class="text-right">近30天</td>
+          <td><{$monthInfo.complete_trade|default:0}></td>
+          <td><{$monthInfo.ready_trade|default:0}></td>
+          <td><{$monthInfo.ready_send_trade|default:0}></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

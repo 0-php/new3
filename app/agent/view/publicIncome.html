@@ -1,0 +1,403 @@
+<div class="report">
+	<div class="box box-primary">
+		<div class="box-body">
+			<div class="report-filter bg-info">
+				<span class="report-filter-1">
+					<a href="<{url action=agent_ctl_publicIncome@index sendtype='yesterday'}>" <{if $sendtype=='yesterday'|| $sendtype==''}>class="active"<{/if}> >昨日</a>
+					<a href="<{url action=agent_ctl_publicIncome@index sendtype='today'}>" <{if $sendtype=='today'}>class="active"<{/if}>>今天</a>
+					<a href="<{url action=agent_ctl_publicIncome@index sendtype='beforday'}>" <{if $sendtype=='beforday'}>class="active"<{/if}>>前日</a>
+					<a href="<{url action=agent_ctl_publicIncome@index sendtype='week'}>" <{if $sendtype=='week'}>class="active"<{/if}>>最近7天</a>
+					<a href="<{url action=agent_ctl_publicIncome@index sendtype='month'}>" <{if $sendtype=='month'}>class="active"<{/if}>>最近30天</a>
+					<a href="<{url action=agent_ctl_publicIncome@index sendtype='all'}>" <{if $sendtype=='all'}>class="active"<{/if}>>详细报表</a>
+
+					<!--  <div class="col-xs-6">  -->
+					<span class="order-form-w1" style="display:inline-block;vertical-align:11px;line-height:34px;">按注册日期筛选：</span>
+					<span class="input-group input-group-sm col-xs-3" style="display:inline-table;">
+						<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+						<input type="text" class="form-control pull-right reservation" style="max-width:100%;" readonly name="regtime1" id="regtime1" value="">
+					</span>
+					<input type="button" id="btnTimeSearch1" value="搜索"/>
+					<!--  </div> -->
+				</span>
+			</div>
+
+			<div class="report-total">
+				<div class="small-box bg-aqua col-lg-2">
+					<div class="inner">
+						<div>新增订单金额(￥)</div>
+						<h3><{$order[0][0].addOrderMoney|cur}></h3>
+						<{if $sendtype=='yesterday' || $sendtype=='beforday'}>
+						<p class="text-light-gray">上周同期<{$orderLast[0][0].addOrderMoney|cur}></p>
+						<{/if}>
+					</div>
+				</div> 
+				<div class="small-box bg-green col-lg-2">
+					<div class="inner">
+						<div>新增订单数(笔)</div>
+						<h3><{$order[0][0].addOrderNum|default:0}></h3>
+						<{if $sendtype=='yesterday' || $sendtype=='beforday'}>
+						<p class="text-light-gray">上周同期<{$orderLast[0][0].addOrderNum|default:0}></p>
+						<{/if}>
+					</div>
+				</div>
+				<div class="small-box bg-yellow col-lg-2">
+					<div class="inner">
+						<div>平均单价(￥)</div>
+						<h3><{$order[0][0].avgPrice|cur}></h3>
+						<{if $sendtype=='yesterday' || $sendtype=='beforday'}>
+						<p class="text-light-gray">上周同期<{$orderLast[0][0].avgPrice|cur}></p>
+						<{/if}>
+					</div>
+				</div>   
+				<div class="small-box bg-red col-lg-2">
+					<div class="inner">
+						<div>已完成订单数(笔)</div>
+						<h3><{$sysstat.commonday.complete_trade|default:0}></h3>
+						<{if $sendtype=='yesterday' || $sendtype=='beforday'}>
+						<p class="text-light-gray">上周同期<{$sysstat.beforeweek.complete_trade|default:0}></p>
+						<{/if}>
+					</div>
+				</div>
+				<div class="small-box bg-maroon col-lg-2">
+					<div class="inner">
+						<div>已发货订单数(笔)</div>
+						<h3><{$sysstat.commonday.already_send_trade|default:0}></h3>
+						<{if $sendtype=='yesterday' || $sendtype=='beforday'}>
+						<p class="text-light-gray">上周同期<{$sysstat.beforeweek.already_send_trade|default:0}></p>
+						<{/if}>
+					</div>
+				</div>
+			</div>
+
+			<!--报表的统计图，暂且先隐藏，因实现起来困难-->
+			<!-- <div class="panel panel-default">
+				<div class="panel-heading">
+					<div class="checkbox text-gray">
+						<label>
+							<input type="radio" name="radio" id="trade" value="newAddOrderMoney" checked onchange="businessTrade()">新增订单金额
+						</label>
+						<label>
+							<input type="radio" name="radio" id="trade" value="newAddOrderNum" onchange="businessTrade()">新增订单数
+						</label>
+						<label>
+							<input type="radio" name="radio" id="trade" value="avgPrice" onchange="businessTrade()">平均单价
+						</label>
+						<label>
+							<input type="radio" name="radio" id="trade" value="alreadyfee" onchange="businessTrade()">已付款订单金额
+						</label>
+						<label>
+							<input type="radio" name="radio" id="trade" value="complete_trade" onchange="businessTrade()">已完成订单数
+						</label>
+						<label>
+							<input type="radio" name="radio" id="trade" value="cancle_trade" onchange="businessTrade()">已取消订单数
+						</label>
+					</div>
+				</div>
+				<div class="panel-body">
+					<div class="row">
+						<div class="checkbox pull-right">
+							<{if $sendtype=='yesterday' || $sendtype=='beforday'}>
+							对比：
+							<label>
+								<input type="radio" name="compare" id="compare" value="comparebefore" checked onchange="businessTrade()">前一日
+							</label>
+							<label>
+								<input type="radio" name="compare" id="compare" value="compareweek" onchange="businessTrade()">上周同期
+							</label>
+							<{/if}>
+						</div>
+					</div>
+					<div class="demo-container">
+						<div id="placeholder" class="demo-placeholder" style="width:100%;height:300px"></div>
+					</div>
+				</div>
+			</div> -->
+			<div class="report-title">交易数据</div>
+
+			<!--  <div class="col-xs-6">  -->
+			<span class="order-form-w1" style="display:inline-block;vertical-align:11px;line-height:34px;">按注册日期筛选：</span>
+			<span class="input-group input-group-sm col-xs-3" style="display:inline-table;">
+				<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+				<input type="text" class="form-control pull-right reservation" style="max-width:100%;" readonly name="regtime" id="regtime" value="">
+			</span>
+			<input type="button" id="btnTimeSearch" value="搜索"/>
+			<input type="button" id="btnTimeSearchAll" value="查询详细">
+			<!--  </div> -->
+
+
+			<table class="table table-primary table-bordered text-center">
+				<thead>
+					<tr>
+						<td>时间</td>
+						<td>新增订单金额</td>
+						<td>新增订单数量</td>
+						<td>平均客单价</td>
+						<td>待付款订单金额</td>
+						<td>已付款订单金额</td>
+					</tr>
+				</thead>
+				<tbody id="tBodyData">
+					<tr>
+						<td>昨日</td>
+						<td><{$yesterday[0][0].addOrderMoney|cur}></td>
+						<td><{$yesterday[0][0].addOrderNum|default:0}></td>
+						<td><{$yesterday[0][0].avgPrice|default:0}></td>
+						<td><{$sysDataInfo.yesterday.commonday.ready_fee|cur}></td>
+						<td><{$sysDataInfo.yesterday.commonday.alreadyfee|cur}></td>
+					</tr>
+					<tr>
+						<td>前日</td>
+						<td><{$beforeday[0][0].addOrderMoney|cur}></td>
+						<td><{$beforeday[0][0].addOrderNum|default:0}></td>
+						<td><{$beforeday[0][0].avgPrice|default:0}></td>
+						<td><{$sysDataInfo.beforInfo.commonday.ready_fee|cur}></td>
+						<td><{$sysDataInfo.beforInfo.commonday.alreadyfee|cur}></td>
+					</tr>
+
+					<tr>
+						<td >近7天</td>
+						<td><{$week[0][0].addOrderMoney|cur}></td>
+						<td><{$week[0][0].addOrderNum|default:0}></td>
+						<td><{$week[0][0].avgPrice|default:0}></td>
+						<td><{$sysDataInfo.week.commonday.ready_fee|cur}></td>
+						<td><{$sysDataInfo.week.commonday.alreadyfee|cur}></td>
+					</tr>
+					<tr>
+						<td >近30天</td>
+						<td><{$month[0][0].addOrderMoney|cur}></td>
+						<td><{$month[0][0].addOrderNum|default:0}></td>
+						<td><{$month[0][0].avgPrice|default:0}></td>
+						<td><{$sysDataInfo.month.commonday.ready_fee|cur}></td>
+						<td><{$sysDataInfo.month.commonday.alreadyfee|cur}></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<br>
+		<br>
+		业务报表：
+		<br>
+		<table class="table table-primary table-bordered text-center">
+				<thead>
+					<tr>
+						<td>账单编号</td>
+						<td>店铺单(数量)</td>
+						<td>开店收入</td>
+						<td>结算状态</td>
+						<td>账单开始时间</td>
+						<td>账单结束时间</td>
+						<td>结算时间</td>
+						<td>操作</td>
+					</tr>
+				</thead>
+				<tbody id="">
+				   <{foreach from=$MonthReport[0] item=valMonthReport key=keyMonthReport}>
+					<tr>
+						<td><{$valMonthReport.settlement_no}></td>
+						
+						<td><{$valMonthReport.shopnum|cur}></td>
+						<td><{$valMonthReport.topdprice}></td>
+						<td><{if $valMonthReport.settlement_status =="2"}>已结算<{elseif $valMonthReport.settlement_status =="1"}>未结算<{/if}></td>
+						<td><{$valMonthReport.account_start_time}></td>
+						<td><{$valMonthReport.account_end_time}></td>
+						<td><{$valMonthReport.settlement_time}></td>
+						<td><a  href="">查询详细订单</a></td>
+					</tr>
+				  <{/foreach}>
+				  <tr>
+						<td colspan="7"><{pagers data=$pagersMonth }>
+							<{if $pagersMonth.total > 0 }>
+							<span class="page-number">共&nbsp;<em class="text-aqua"><{$pagersMonth.total}></em>&nbsp;页</span>
+							<{/if}>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+	</div>
+	<div class="box box-primary">
+		<div class="box-body">
+			
+			<div class="report-title">详细交易数据</div>
+			<table class="table table-primary table-bordered text-center">
+				<thead>
+					<tr>
+						<td>订单编号</td>
+						<td>支付完成时间</td>
+						<td>订单来源</td>
+						<td>收款银行</td>
+						<td>商品标题</td>
+						<td>数量</td>
+						<td>售价</td>
+						<td>消费者所在地</td>	
+						<td>所属县提成</td>
+						 <{if $agent_grade=="省"}>
+						<td>所属市提成</td>
+						<td>所属省提成</td>
+						 <{elseif $agent_grade=="市" }>
+						<td>所属市提成</td>
+						<{/if}> 
+					</tr>
+				</thead>
+				<tbody id="tBodyAll">
+					<{foreach from=$all[0] item=user key=key}>
+					<tr>
+						<td><{$user.oid}></td>
+						<td><{$user.payed_time}></td>
+						<td><{$user.order_from}></td>
+						<td><{$user.bank}></td>
+						<td><{$user.title}></td>
+						<td><{$user.num}></td>
+						<td><{$user.price}></td>
+						<td><{$user.area}></td>
+						<td><{$user.szx_price}></td>
+						 <{if $agent_grade=="省"}>
+						<td><{$user.szshi_price}></td>
+						<td><{$user.szs_price}></td>
+						 <{elseif $agent_grade=="市" }>
+						<td><{$user.szshi_price}></td>
+						<{/if}> 
+					</tr>
+					<{/foreach}> 
+					<tr>
+						<td colspan="7"><{pagers data=$pagers }>
+							<{if $pagers.total > 0 }>
+							<span class="page-number">共&nbsp;<em class="text-aqua"><{$pagers.total}></em>&nbsp;页</span>
+							<{/if}></td>
+						</tr>
+					</tbody>
+
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<!--[if lte IE 8]><script language="javascript" type="text/javascript" src="excanvas.js"></script><![endif]-->
+	<script type="text/javascript">
+
+		$("#btnTimeSearchAll").click(function(){
+			if($("#regtime").val()=="")
+			{
+				alert("请选择时间");
+			}else
+			{
+				var regtime ="time=" + $("#regtime").val();
+				$.ajax({
+					type:'POST',
+					url:"<{url action=agent_ctl_publicIncome@searchRegtimeAll}>",
+					dataType:'json',
+					data:regtime,
+					success:function(rs){
+						var str="";
+						$.each(rs.searchRegtimeAll[0],function(n,value){
+							str+="<tr><td>"+value.oid+"</td><td>"+unix_to_datetime(value.payed_time)+"</td><td>"+value.order_from+"</td><td>"+value.bank+"</td><td>"+value.title+"</td><td>"+value.num+"</td><td>"+value.price+"</td><td>"+value.area+"</td></tr>";
+						})
+
+						$("#tBodyAll").html(str);
+					}
+				});
+
+			}
+		})
+
+		function unix_to_datetime(unix) {
+			var now = new Date(parseInt(unix) * 1000);
+			return now.toLocaleString().replace(/年|月/g, "-").replace(/日/g, " ");
+		}
+
+		$('#btnTimeSearch1').click(function(){
+			if($("#regtime1").val()=="")
+			{
+				alert("请选择时间");
+			}else
+			{
+
+				var regtime = $("#regtime1").val();
+				window.location.href="<{url action=agent_ctl_publicIncome@index}>"+"?regtime="+regtime +"&sendtype=search";
+			}
+		})
+		$("#btnTimeSearch").click(function(){
+			if($("#regtime").val()=="")
+			{
+				alert("请选择时间");
+			}else
+			{
+
+				var regtime ="time=" + $("#regtime").val();
+				$.ajax({
+
+					type:'POST',
+					url:"<{url action=agent_ctl_publicIncome@searchRegtime}>",
+					dataType:'json',
+					data:regtime,
+					success:function(rs){
+
+
+						if(rs.searchRegtime[0][0].tol=="0")
+						{
+							str="<tr><td>"+$("#regtime").val()+"没有数据</td></tr>";
+						}else
+						{
+							str ="<tr><td>"+$("#regtime").val()+"</td><td>"+rs.searchRegtime[0][0].addOrderMoney+"</td><td>"+rs.searchRegtime[0][0].addOrderNum+"</td><td>"+rs.searchRegtime[0][0].avgPrice+"</td><td><{$sysDataInfo.yesterday.commonday.ready_fee|cur}></td><td><{$sysDataInfo.yesterday.commonday.alreadyfee|cur}></td></tr>";
+						}
+
+						$("#tBodyData").html(str);
+					}
+				});	
+			}
+		})
+
+
+//该js用于日期显示
+$('.reservation').daterangepicker({
+	format: 'YYYY/MM/DD',
+	opens: 'right'
+});
+
+$('.report input[type=radio]:checked').trigger('change');
+
+function sysstatment(rs)
+{
+	var options = {
+		series: {
+			lines: { show: true },
+			points: { show: true },
+			shadowSize:0
+		},
+		clickable: true,
+		hoverable: true,
+		xaxis:{
+        //tickSize:1,
+        minTickSize: [1, 'day'],
+        mode: 'time',
+        timeformat: "%Y/%m/%d"
+    }
+
+};
+$.plot("#placeholder", rs, options);
+}
+
+
+function businessTrade()
+{
+	var type = $(":radio:checked").val();
+
+	var sendtype = "<{$sendtype}>";
+	if(sendtype=='yesterday' || sendtype=='beforday')
+	{
+		var compare = $('input[name="compare"]:checked').val();
+	}
+	var url = "<{url action=agent_ctl_ticketIncome@ajaxOrder}>";
+	var datainfo = "trade="+type+"&sendtype="+sendtype+"&compare="+compare;
+	$.ajax({
+		type:'POST',
+		url:url,
+		data:datainfo,
+		success:function(rs){
+			sysstatment(rs);
+		}
+	});
+
+}
+
+</script>
+

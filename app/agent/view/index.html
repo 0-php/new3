@@ -1,0 +1,46 @@
+代理商月报表：
+		<br>
+		<table class="table table-primary table-bordered text-center">
+				<thead>
+					<tr>
+						<td>账单编号</td>
+						<td>产品订单(数量)</td>
+						<td>产品收入</td>
+						<td>店铺订单(数量)</td>
+						<td>店铺收入</td>
+						<td>演唱会订单(数量)</td>
+						<td>演唱会收入</td>
+						<td>结算状态</td>
+						<td>账单开始时间</td>
+						<td>账单结束时间</td>
+						<td>结算时间</td>
+						
+					</tr>
+				</thead>
+				<tbody id="">
+				   <{foreach from=$MonthReport[0] item=valMonthReport key=keyMonthReport}>
+					<tr>
+						<td><{$valMonthReport.settlement_no}></td>
+						<td><{$valMonthReport.shopnum}></td>
+						<td><{$valMonthReport.shopprice}></td>
+						<td><{$valMonthReport.topdnum}></td>
+						<td><{$valMonthReport.topdprice}></td>
+
+						<td><{$valMonthReport.concertnum}></td>
+						<td><{$valMonthReport.concertprice}></td>
+						<td><{if $valMonthReport.settlement_status =="2"}>已结算<{elseif $valMonthReport.settlement_status =="1"}>未结算<{/if}></td>
+						<td><{$valMonthReport.account_start_time}></td>
+						<td><{$valMonthReport.account_end_time}></td>
+						<td><{$valMonthReport.settlement_time}></td>
+						
+					</tr>
+				  <{/foreach}>
+				  <tr>
+						<td colspan="7"><{pagers data=$pagersMonth }>
+							<{if $pagersMonth.total > 0 }>
+							<span class="page-number">共&nbsp;<em class="text-aqua"><{$pagersMonth.total}></em>&nbsp;页</span>
+							<{/if}>
+						</td>
+					</tr>
+				</tbody>
+			</table>

@@ -1,0 +1,76 @@
+<section class="content">
+  <form action="<{url action=topd_ctl_enterapply@saveApply}>" method="post" class="form-horizontal" role="form" data-validate-onsuccess="ajaxSubmit">
+    <fieldset>
+      <div class="panel panel-outter">
+        <div class="panel-body">
+          <div class="col-md-10">
+            <div>
+              <legend id="license">基本信息</legend>
+            </div>
+            <div class="form-group">
+              <label for="fenxiao_name" class="control-label col-md-3"><span class="text-red">*</span>真实姓名：</label>
+              <div class="col-md-5">
+                <input type="text" name="fenxiao_name" value="<{$userInfo.fenxiaodp.fenxiao_name}>" id="fenxiao_name" class="form-control" placeholder="用于提现等操作，请务必填写真实姓名" maxlength="50" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="area" class="control-label col-md-3"><span class="text-red">*</span>所在区域：</label>
+              <div class="col-md-5">
+                  <div id="area" class="mod-bottom" data-validate="area"></div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="fenxiao_type" class="control-label col-md-3"><span class="text-red">*</span>身份类型：</label>
+              <div class="col-md-5">
+                  <select name="fenxiao_type" id="fenxiao_type" class="form-control">
+                      <{foreach from=$fenxiao_type item=shoptype key=key}>
+                      <option value="<{$key}>" <{if $key == $userInfo.fenxiaodp.fenxiao_type}>selected<{/if}>><{$shoptype}></option>
+                      <{/foreach}>
+                  </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="fenxiao_cid" class="control-label col-md-3"><span class="text-red">*</span>身份证号：</label>
+              <div class="col-md-5">
+                  <input type="text" name="fenxiao_cid" value="<{$userInfo.fenxiaodp.fenxiao_cid}>" id="fenxiao_cid" class="form-control" placeholder="用于验证身份真实性，请务必填写真实身份证号" maxlength="50" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="fenxiao_call" class="control-label col-md-3"><span class="text-red">*</span>联系手机：</label>
+              <div class="col-md-5">
+                <input type="text" name="fenxiao_call" value="<{$userInfo.fenxiaodp.fenxiao_call}>" id="fenxiao_call" class="form-control" placeholder="联系手机" maxlength="11" required data-validate-mobile>
+              </div>
+            </div>
+              <div class="form-group" style="text-align: center; margin: auto;">
+                  <button type="submit" class="btn btn-primary">申请开店</button>
+              </div>
+          </div>
+      </div></div>
+    </fieldset>
+  </form>
+</section>
+
+<{script src="area_select.js" app="topc"}>
+<script>
+function ajaxSubmit (e) {
+  var form = e.target;
+  e.preventDefault();
+  $.post(form.action, $(form).serialize(), function(rs) {
+    if(rs.error) {
+      $('#messagebox').message(rs.message);
+      return;
+    }
+    if(rs.success) {
+      $('#messagebox').message(rs.message, 'success');
+    }
+    if(rs.redirect) {
+      location.href = rs.redirect;
+    }
+  });
+}
+
+$('#area').multiSelect({
+    dataUrl: '<{$env.base_url}>/app/ectools/statics/scripts/area.json',
+    initData: '<{$userInfo.fenxiaodp.region_id}>'
+});
+</script>

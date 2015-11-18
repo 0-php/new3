@@ -1,0 +1,17 @@
+<div class="coupon-outbox">
+  <div>
+    <span style="color: #FF0000;">注意：红包使用后将不退还，请谨慎使用！</span>
+    <ul>
+      <!-- 红包列表开始 -->
+      <{foreach from=$couponList item=item}>
+      <li><div class="radio"><label><input type="radio" name="coupon_use" id="" value="HDVGVIP<{$item.coupon_id}>" data-coupon-desc="<{$item.coupon_desc}>(<{$item.deduct_money|cur}>)" checked ><{$item.coupon_desc}>(<{$item.deduct_money|cur}>)</label></div></li>
+      <{/foreach}>
+      <li><div class="radio"><label><input type="radio" name="coupon_use" id="" value="HDVGVIP" data-coupon-desc="不使用红包"> 不使用红包</label></div></li>
+      <!-- 红包列表结束 -->
+    </ul>
+  </div>
+  <div class="coupon-footer">
+    <button type="button" id="check_coupon" class="btn btn-import dialog-btn-close"><span><span>确定</span></span></button>
+    <button type="button" class="btn btn-cancel"><span><span>取消</span></span></button></div></div>
+  </div>
+</div>

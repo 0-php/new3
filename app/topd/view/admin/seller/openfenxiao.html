@@ -1,0 +1,45 @@
+<div class="tableform">
+	<form id="updateShopzt" action="?app=topd&ctl=admin_shop&act=update_shop_zt"  method="post">
+	<div class="division">
+		<table width="100%" cellspacing="0" cellpadding="0" border="0">
+			<input type="hidden" name="user_id" value="<{$fenxiaodp.user_id}>">
+			<tbody>
+				<tr>
+                    <th><{t}>真实姓名：<{/t}></th>
+                    <td><span class="price0"><{$fenxiaodp.fenxiao_name}></span></td>
+                </tr>
+                <tr>
+                    <th><{t}>身份证：<{/t}></th>
+                    <td><span class="price0"><{$fenxiaodp.fenxiao_cid}></span></td>
+                </tr>
+				<tr>
+					<th ><{t}>请输入赠送红包金额：<{/t}></th>
+					<td><{input type="text" maxlength="20" name="yhj"}></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="table-action"><{button type="submit" label="保存"|t:'topd' }></div>
+	</form>
+</div>
+
+
+<script>
+
+    $('updateShopzt').store('target',{
+        onComplete:function(rs){
+            if(!rs) return;
+            rs = JSON.decode(rs);
+            if(rs.success){
+                if(window.finderGroup) window.finderGroup['<{$env.get.finder_id}>'].refresh();
+                if($('updateShopzt').getParent('.dialog')){
+                    var Dlg = $('updateShopzt').getParent('.dialog').retrieve('instance');
+                    if(Dlg.update){
+                        Dlg.update.retrieve('instance').initContent();
+                    }
+                    Dlg.close();
+                }
+            }
+        }
+    });
+</script>

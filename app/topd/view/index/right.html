@@ -1,0 +1,49 @@
+<div class="box box-primary">
+  <div class="box-header">
+    <h3 class="box-title">公众店铺开店信息</h3>
+  </div>
+
+  <div class="box-body">
+    <div>
+      <span class="text-gray">店铺类型：</span>
+      <span><{if $shop.fenxiao_type=='student'}>在校学生<{else}>社会人士<{/if}></span>
+    </div>
+    <div>
+      <span class="text-gray">店铺申请日期：</span>
+      <span>
+        <{$shop.fenxiao_time|cdate:FDATE_STIME}></span>
+    </div>
+    <div>
+      <span class="text-gray">店铺支付日期：</span>
+      <span>
+        <{$shop.fenxiao_paytime|cdate:FDATE_STIME}></span>
+    </div>
+    <div>
+      <span class="text-gray">店铺支付金额：</span>
+      <span>
+        <{$shop.fenxiao_payprice|cur}></span>
+    </div>
+    <div>
+      <span class="text-gray">店铺支付单号：</span>
+      <span>
+        <{$shop.payment_id}></span>
+    </div>
+    <div>
+      <span class="text-gray">店铺开通状态：</span>
+      <span><{if $shop.fenxiao_zt=='finish'}>正常<{else}>已关闭<{/if}></span>
+    </div>
+    <div>
+      <span class="text-gray">店铺区域：</span>
+      <span><{$shop.fenxiao_shengid}></span>
+    </div>
+    <div>
+      <span class="text-gray">店铺主身份证：</span>
+      <span><{$shop.fenxiao_cid}></span>
+    </div>
+    <div>
+      <span class="text-gray">店铺主联系电话：</span>
+      <span><{$shop.fenxiao_call}></span>
+    </div>
+    <div style="color: #FF0000">如信息有错请及时联系工作人员修改！</div>
+  </div>
+</div>

@@ -1,0 +1,22 @@
+<app>
+    <name>代理商模块</name>
+    <type>service</type>
+    <description>提供代理商相关功能</description>
+
+    <author>
+        <name>恒大微购技术部</name>
+        <email>jsb@hdvg.tv</email>
+        <url>http://www.hdvg.tv</url>
+    </author>
+
+    <version>0.1</version>
+    <license>HDVG license</license>
+
+    <parent_model_class>dbeav_model</parent_model_class>
+
+    <depends>
+        <app>base</app>
+        <app>desktop</app>
+    </depends>
+
+</app>

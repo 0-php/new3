@@ -1,0 +1,52 @@
+
+
+<div class="tableform">
+	<form id="agent_editPwd"  action="?app=agent&ctl=admin_agent&act=savePwd"  method="post">
+		<div class="division">
+			<table width="100%" cellspacing="0" cellpadding="0" border="0">
+				<tbody>
+					<tr>
+						<th><em class="red">代理商修改密码</em></th>
+					</tr>
+					<tr>
+						<th><input  type="hidden"  name="seller[agent_id]" value="<{$agentid}>"/></th>
+					</tr>
+					<tr>
+						<th><{t}>用户登录密码：<{/t}></th>
+						<td><{input type="password"  vtype="required"  name="seller[agent_pwd]"}> </td>
+					</tr>
+					<tr>
+						<th><{t}>确认密码：<{/t}></th>
+						<td><{input type="password"   name="seller[agent_pwd_confirm]"}>  </td>
+					</tr>
+					<tr><th><div class="table-action"><{button type="submit" label="保存"|t:'sysshop' }></div></th></tr>
+				</tbody>
+			</table>
+		</div>
+
+	</form>
+</div>
+
+
+<script>
+
+    $('updateShopPwd').store('target',{
+        onComplete:function(rs){
+            if(!rs) return;
+            rs = JSON.decode(rs);
+            if(rs.success){
+                if(window.finderGroup) window.finderGroup['<{$env.get.finder_id}>'].refresh();
+                if($('updateShopPwd').getParent('.dialog')){
+                    var Dlg = $('updateShopPwd').getParent('.dialog').retrieve('instance');
+                    if(Dlg.update){
+                        Dlg.update.retrieve('instance').initContent();
+                    }
+                    Dlg.close();
+                }
+            }
+        }
+    });
+</script>
+	
+
+

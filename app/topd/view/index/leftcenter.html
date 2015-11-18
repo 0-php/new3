@@ -1,0 +1,26 @@
+<div class="box box-primary">
+  <div class="box-header">
+    <h3 class="box-title">业务提醒</h3>
+  </div><!-- /.box-header -->
+  <div class="box-body">
+    <div class="">
+      <span class="text-gray">业务信息：</span>
+      产品订单(<span class="text-orange"><{$pd.shop}>单/<{$pd.shopprice|cur}></span>)
+      推荐开店(<span class="text-orange"><{$pd.topd}>单/<{$pd.topdprice|cur}></span>)
+      演唱会订单(<span class="text-orange"><{$pd.yhk}>单/<{$pd.yhkprice|cur}></span>)
+      <a href="<{url action=topd_ctl_sysstat_sysbusiness@index}>" class="pull-right">查看报表></a>
+    </div>
+    <div class="">
+      <span class="text-gray">商品信息：</span>
+      <a href="<{url action=topd_ctl_goods@add status=instock}>">仓库中的数量(<span class="text-orange"><{$countShopInstockItem}></span>)</a>
+      <a href="<{url action=topd_ctl_goods@add status=onsale}>">上架商品数量(<span class="text-orange"><{$countShopOnsaleItem}></span>)</a>
+      <a href="<{url action=topd_ctl_goods@add}>" class="pull-right">维护商品></a>
+    </div>
+    <div class="">
+      <span class="text-gray">店铺热度：</span>
+      总点击率：(<span class="text-orange"><{$shop.fenxiao_clk2}></span>)
+      今日店铺点击率:(<span class="text-orange"><{$shop.fenxiao_clk1}></span>)
+      最后一次被浏览是在:(<span class="text-orange"><{$shop.fenxiao_clk0|cdate:FDATE_STIME}></span>)
+    </div>
+  </div>
+</div>

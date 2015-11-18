@@ -1,0 +1,14 @@
+<services>
+    <service id="desktop_finder.syshdtj_mdl_month">
+        <class>syshdtj_finder_month</class>
+    </service>
+    <service id="desktop_finder.syshdtj_mdl_pd">
+        <class>syshdtj_finder_topd</class>
+    </service>
+    <service id="desktop_finder.syshdtj_mdl_shop">
+        <class>syshdtj_finder_shop</class>
+    </service>
+    <service id="desktop_finder.syshdtj_mdl_concert">
+        <class>syshdtj_finder_concert</class>
+    </service>
+</services>

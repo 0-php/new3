@@ -1,0 +1,63 @@
+<form  action="<{url action=topd_ctl_shop_info@saveshop}>" method="post" class="form-horizontal" data-validate-onsuccess="ajaxSubmit" role="form">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <{if $fenxiaodp.fenxiao_id}><input type="hidden" name="fenxiaodp[fenxiao_id]" value="<{$fenxiaodp.fenxiao_id}>"><{/if}>
+            <div class="form-group">
+                <label class="col-sm-2 control-label"><{t}>店铺名称<{/t}>：</label>
+                <div class="col-sm-3">
+                    <label class="control-label"><{input type="text" name="fenxiaodp[fenxiao_dpname]" value=$fenxiaodp.fenxiao_dpname }></label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label"><{t}>店铺LOGO<{/t}>：</label>
+                <div class="col-sm-3">
+                    <a class="select-image" data-toggle="modal" href="<{url action=topd_ctl_shop_info@loadImageModal}>" data-target="#gallery_modal">
+                        <input type="hidden" name="fenxiaodp[fenxiao_simg]" value="<{$fenxiaodp.fenxiao_simg}>">
+                        <div class="img-put">
+                            <img src="<{$fenxiaodp.fenxiao_simg|storager:s}>">
+                            <i class="glyphicon glyphicon-picture"></i>
+                        </div>
+                    </a>
+                    <span class="help-block">LOGO尺寸标准：105px * 105px（请根据店铺模板上传适当大小的LOGO）</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label"><{t}>店铺模板<{/t}>：</label>
+                <div class="col-sm-3">
+                    <label class="control-label"><{input type="select" required="true" name="fenxiaodp[fenxiao_cidimg]" options=$fenxiaodp.options value=$fenxiaodp.fenxiao_cidimg }></label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-offset-5 col-sm-2">
+            <button type="submit" class="btn btn-primary btn-lg btn-block">保存</button>
+        </div>
+    </div>
+</form>
+
+<script>
+    function ajaxSubmit (e) {
+        var form = e.target;
+        e.preventDefault();
+        $.post(form.action, $(form).serialize(), function(rs) {
+            if(rs.error) {
+                $('#messagebox').message(rs.message);
+                return;
+            }
+            if(rs.success) {
+                $('#messagebox').message(rs.message, 'success');
+            }
+            if(rs.redirect) {
+                setTimeout(function(){location.href=rs.redirect;}, 800);
+            }
+        });
+    }
+</script>
+<script>
+    $(document).ready(
+            function() {
+                $(".sidebar .sidebar-menu li a i.glyphicon").eq(1).removeClass("glyphicon-list-alt").addClass("glyphicon-cog");
+            }
+    );
+</script>

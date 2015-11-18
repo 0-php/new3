@@ -1,0 +1,12 @@
+<cronentries>
+    <cron id="syshdtj_tasks_day">
+        <description>结算报表自动日结</description>
+        <schedule> 0 3 * * *</schedule>
+        <enabled>true</enabled>
+    </cron>
+    <cron id="syshdtj_tasks_month">
+        <description>结算报表自动月结生成结算报表</description>
+        <schedule> 0 3 1 * *</schedule>
+        <enabled>true</enabled>
+    </cron>
+</cronentries>

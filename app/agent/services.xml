@@ -1,0 +1,5 @@
+<services>
+    <service id="desktop_finder.agent_mdl_account">
+        <class>agent_finder_account</class>
+    </service>
+</services>

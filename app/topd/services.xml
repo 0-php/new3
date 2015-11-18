@@ -1,0 +1,8 @@
+<services>
+    <service id="desktop_finder.topd_mdl_dp">
+        <class>topd_finder_dp</class>
+    </service>
+    <service id="desktop_finder.topd_mdl_shop_notice">
+        <class>topd_finder_shopnotice</class>
+    </service>
+</services>

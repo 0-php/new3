@@ -1,0 +1,370 @@
+<style>
+    /*分销插件*/
+    .yinchang{ position:absolute;border:1px solid #ccc; width:140px; height:282px; background:#fff;}
+    .shareul{width:140px; height:214px; padding:3px 0;}
+    .shareul li{ height:30px; line-height:30px;  padding:0 0 0 15px; list-style-type:none;}
+    .shareul li a{display: block; padding-left: 25px;}
+    .fenxiao_first{ width:140px;line-height:30px;font-weight:700;  border-bottom:1px solid #ccc; background:#f2f2f2;}
+    .fenxiao_last{ border-top:1px solid #ccc; background:#f2f2f2 url(/themes/Hdvgmall/images/j8.jpg)no-repeat 60px 8px; padding:0 0 0 80px;width:60px;line-height:30px; }
+    .current{ background:#f2f2f2; border:1px solid #ccc; width:110px; margin-left:2px;}
+    .qq{ background:url(<{resource app="topd" path="/images/qq.jpg"}>) no-repeat 0px 4px; padding:0 0 0 30px;}
+    .qqzone{ background:url(<{resource app="topd" path="/images/qqzone.jpg"}>) no-repeat 0px 4px; padding:0 0 0 30px;}
+    .xinlang{ background:url(<{resource app="topd" path="/images/xinl.jpg"}>)no-repeat 0px 4px;padding:0 0 0 30px;}
+    .tengxun{ background:url(<{resource app="topd" path="/images/tengxun.jpg"}>) no-repeat 0px 4px;padding:0 0 0 30px;}
+    .renren{background:url(<{resource app="topd" path="/images/renren.jpg"}>)no-repeat 0px 4px;padding:0 0 0 30px;}
+    .weixin{background:url(<{resource app="topd" path="/images/weixin.jpg"}>)no-repeat 0px 4px;padding:0 0 0 30px;}
+    .yijiana{background:url(<{resource app="topd" path="/images/yijian.jpg"}>)no-repeat 0px 4px;padding:0 0 0 30px;}
+    .chamore{background:url(<{resource app="topd" path="/images/cha7.jpg"}>)no-repeat 0px 4px;padding:0 0 0 30px;}
+    #fenxiaoclose{ position:absolute; top:6px; right:2px; display:inline-block; width:20px; height:20px; cursor:pointer;}
+    .theme-popover-mask{z-index:1;position:absolute;left:0;top:0;width:100%;height:100%;background:#000;opacity:0.5;filter:alpha(opacity=50);-moz-opacity:0.5;display:none;}
+    .theme-popover{z-index:9;position:absolute;top:50%;left:50%;width:300px;height:360px;margin:-180px 0 0 -150px;border-radius:5px;border:solid 2px #e4e4e4;background-color:#fff;display:none;box-shadow:0 0 10px #666;background:#fff;}
+    .theme-poptit{border-bottom:1px solid #ddd;padding:12px;position:relative;height:50px;}
+    .theme-poptit .close{float:right;color:#000000;padding:5px;margin:-2px -5px -5px;font:bold 14px/14px simsun;text-shadow:0 1px 0 #ddd}
+    .theme-poptit .close:hover{color:#000000;}
+    .theme-popbod{padding:60px 15px;color:#444;height:148px; margin: auto; text-align: center;}
+    .theme-popbod img{margin: auto;}
+    .dform{padding:20px 20px 40px;text-align:center;}
+    .shareParent{font-size: 16px; width: 200px;}
+    .yijianshare{margin:auto; width: 65px;}
+    .vippu{margin-top: 0px; padding-left: 50px;}
+    /*分销商品*/
+    .FenXiao_choiceshare{width: 100%;margin:0px auto;}
+    .FenXiao_shareproduce_right{width: 100%; background: #fff; border:1px solid #ccc; float:left; }
+    .FenXiao_shareproduce{width: 100%;height: 35px;line-height:35px;font-weight: 700;background:#e8e8e8; padding:0 0 0 20px;margin:0 0 20px 0;font-family:"微软雅黑";}
+    .table_thead{background:#F5F5F5;width: 100%;height: 40px; border-top:1px solid #ccc;border-bottom:1px solid #ccc;}
+    .fenxiao_table_trr{line-height: 40px;}
+    .fenxiao_table_trr th{text-align: center;}
+    .fenxiao_share {display: block;color:#E10601;}
+    .table_body01{width: 100%;height: 40px; padding:20px 0 0 0; border-bottom: 1px solid #ccc;}
+    .table_body01 td{display:block;}
+    .share_insert,.share_choice{ float:left; border:1px solid #275DE4;padding: 5px;margin:0 0 0 20px; border-radius: 5px;}
+    .table_body02{width: 100%}
+    .table_body02 tr{width:100%; padding:20px; border-bottom:1px solid #ccc; color:#333; font-size:12px;}
+    .table_body_img{ float:left;}
+    .table_body_dl{ float:left; margin:0 0 0 20px;width:400px; line-height: 120px; height: 120px;}
+    .table_body_aa{ color:#275DE4;}
+    .table_body_dl dt{ margin:30px 0 30px 0;}
+    .table_share{ display:block; background:url(../images/cha7.jpg) no-repeat 0px 0px; width:50px; height:25px;line-height:25px;padding:0 0 0 30px;}
+    .xiajia_share{ display:block; background:#f89416;width: 56px;height: 24px;line-height: 24px; color:#fff;}
+    .xiajia_share:hover{background:#da7d0c;}
+    .shareproduce_conin_table{width: 96%; margin: auto;}
+    .footer_open{margin-top: 10px;}
+
+    /*我的分销*/
+    .FenXiao_myfenxiao{width: 100%; margin:30px auto 0;}
+    .FenXiao_myfenxiao_right{width: 100%; background: #fff; border:1px solid #ccc; float:left; height: 388px;}
+    .FenXiao_myfenxiao_produce{width: 100%;height: 35px;line-height:35px;font-weight: 700;background:#e8e8e8; padding:0 0 0 20px;margin:0 0 20px 0;font-family:"微软雅黑";}
+    .myfenxiao_con{width:100%;padding:20px 0 0 20px;height: 150px; border-top:1px solid #ccc;border-bottom:1px solid #ccc; margin-bottom: 20px;;}
+    .myfenxiao_left{float:left;}
+    .myfenxiao_con_right{float:left; margin:0 0 0 30px;height:125px;}
+    .kehushu{font-size: 14px;color:#666;}
+    .myfenxiao_vipIn{width: 300px;height: 100px; margin:10px 0 0 0; font-size: 14px; padding-left: 50px; text-align: left;}
+    .myshopp:hover,.fenxiaoguanli:hover{color:red;}
+    .FenXiao_myfenxiao_detail{width:100%;height: 35px;line-height:35px;font-weight: 700;background:#e8e8e8; padding:0 0 0 20px;margin:0 0 20px 0;font-family:"微软雅黑";}
+    .myfenxiao_detail_ul{width: 100%;}
+    .myfenxiao_detail_ul li{float:left;width: 24%; border-right: 1px dashed #ccc; text-align: center; list-style-type:none;}
+    .myfenxiao_detail_ul li span{display:block;}
+    .myfenxiao_detail_ul li em{display:block; font-weight: 700; font-size: 16px; font-style: normal; margin:20px 0 0 0;}
+    .myfenxiao_detail_ul .myfenxiao_detail_li{ border-right: none;}
+    .myfenxiao_yijianshare{margin:10px 0px 0px 0px; float: left;}
+    .myfenxiao_fenxiao_share {width: 150px; height: 30px;line-height: 30px;display: block;font-size: 12px;background: url(../images/cha7.jpg) no-repeat 0px 2px;padding: 0 0 0 32px;}
+</style>
+<script>
+    var istur = true;
+    //分享对象
+    function shareOv(title, url, summary, pic) {
+        this.title = title;
+        this.url = url;
+        this.summary = summary;
+        this.pic = pic;
+        this.platform = {
+            "qq": "http://connect.qq.com/widget/shareqq/index.html?title={title}&url={url}&pics={pic}&summary={summary}&desc={summary}",
+            "xinlang": "http://service.weibo.com/share/share.php?title={title}&url={url}&pic={pic}&source=bookmark&appkey=2992571369",
+            "qqzone": "http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?title={title}&url={url}&pics={pic}",
+            "tengxun": "http://v.t.qq.com/share/share.php?title={title}&url={url}&pic={pic}&appkey=118cd1d635c44eab9a4840b2fbf8b0fb",
+            "renren": "http://share.renren.com/share/buttonshare.do?link={url}&title={title}&pic={pic}",
+            "yijiana": "http://s.jiathis.com/?webid=ishare&link={url}&title={title}&pic={pic}"
+        };
+        this.formatmodel = function(str) {
+            for (var k in this) {
+                var re = new RegExp("{" + k + "}", "g");
+                str = str.replace(re, this[k]);
+            }
+            return str;
+        };
+        this.getPlatformStr = function(plat) {
+            var url = this.platform[plat];
+            return url;
+        }
+    };
+    var shareOv = new shareOv('', '', '', '');
+
+    $(function() {
+        //一键分享的移入移出事件
+        $('.shareParent').hover(function(e) {
+            var yincangObj = $($(this).find(".yinchang")).remove();
+            yincangObj.remove();
+        });
+
+        //分享平台的移入移出事件
+        $('.shareul li').hover(function(e) {
+                    $(this).addClass('current').siblings().removeClass('current');
+                },
+                function() {
+                    $(this).removeClass('current');
+                });
+        //微信弹出窗关闭事件
+        $('.theme-poptit .close').click(function() {
+            $('.theme-popover-mask').hide();
+            $('.theme-popover').slideUp(200);
+        });
+
+        $('#selectAll').change(function(){  //选择当前页的全部
+            $('#data_node input[type=checkbox]').prop('checked', this.checked);
+        });
+
+        $('#reset').on('click',function(){ //重置
+            $('#onecat').val("");
+            $('#item_title').val("");
+            $('#min_price').val("");
+            $('#max_price').val("");
+            $('#onecat').change();
+        });
+
+        $('#action-onsale').on('click',function(){  //批量加入店铺
+            if(!confirm('确定批量添加到店铺？')) {return false;}
+            var itemIds = new Array();
+            $($("#data_node input[name='item_ids']:checked")).each(function(){
+                ajax($(this).val(),'ajaxGotoshop');
+            });
+        });
+
+        $('#action-sc').on('click',function(){  //批量删除商品
+            if(!confirm('确定批量删除商品？')) {return false;}
+            var itemIds = new Array();
+            $($("#data_node input[name='item_ids']:checked")).each(function(){
+                ajax($(this).val(),'ajaxGotoshopsc');
+            });
+        });
+
+        $('#action-sj').on('click',function(){  //批量重新上架
+            if(!confirm('确定批量重新上架？')) {return false;}
+            var itemIds = new Array();
+            $($("#data_node input[name='item_ids']:checked")).each(function(){
+                ajax($(this).val(),'ajaxGotoshopsj');
+            });
+        });
+
+        $('#action-xj').on('click',function(){  //批量下架
+            if(!confirm('确定批量下架商品？')) {return false;}
+            var itemIds = new Array();
+            $($("#data_node input[name='item_ids']:checked")).each(function(){
+                ajax($(this).val(),'ajaxGotoshopxj');
+            });
+        });
+
+        $('.add-items-select').change(function(){ //触发分类、品牌联动
+            if($(this).hasClass('action-select-category')){ //判断是否选择到了第三级分类
+                getBrand($(this));
+                $('#cat_id').val($(this).val());
+            } else if($(this).hasClass('action-select-brand')){ //判断是否选择了品牌
+                $('#brand_id').val($(this).val());
+            } else{
+                $('#cat_id').val('');
+                $('#brand_id').val('');
+                getCategory($(this)); //触发联动
+            }
+        });
+    });
+
+    /**
+     *  显示分享插件
+     */
+    function shareObj(e, title, url, summary, pic) {
+        //赋值给分享对象
+        shareOv.title = encodeURIComponent(title);
+         shareOv.url = encodeURIComponent(url);
+         shareOv.summary = encodeURIComponent(summary);
+         shareOv.pic = encodeURIComponent(pic);
+        //获取左上的位置
+        var left = $(e).children('a').position().left;
+        var top = $(e).children('a').position().top + 25;
+        $(e).parent().append($("#yinchang01").html());
+        var yincangObj = $($(e).find(".yinchang"));
+        yincangObj.css("left", left);
+        yincangObj.css("top", top);
+        yincangObj.show();
+        //注册分享到事件
+        $("a[name='platform']").click(function(e) {
+            var className = $(this).attr("class");
+            //微信
+            if (className == "weixin") {
+                $('.theme-popover-mask').show();
+                $('.theme-popover-mask').height($(document).height());
+                $('.theme-popover').slideDown(200);
+                var qrcodeUrl = "http://s.jiathis.com/qrcode.php?url=" + shareOv.url;
+                $("#tImg").attr("src", qrcodeUrl);
+                return;
+            }
+            //其他平台
+            var urlStr = shareOv.getPlatformStr(className);
+            urlStr = shareOv.formatmodel(urlStr);
+            window.open(urlStr);
+        });
+    }
+
+    /**
+     * 清除分享插件
+     */
+    function removeShare(e) {
+        $(e).parent().remove();
+    }
+    /**
+     * 提交显示
+     */
+    function tjdp(str){
+        str.parentNode.parentNode.innerHTML = '<span style="color:#ff0000">已提交</span>';
+    }
+    /**
+     * ajax 添加到店铺、上下架、删除
+     */
+    function ajax(item,type){
+        $.post('<{url action=topd_ctl_goods@ajaxGotoshop}>', 'goods_id='+item+'&type='+type, function(rs){
+            if(rs.error) {
+                $('#messagebox').message(rs.message);
+                return;
+            }
+            if(rs.success) {
+                $('#messagebox').message(rs.message, 'success');
+                setTimeout(function(){location.reload();}, 800);
+            }
+        });
+    }
+
+    function getBrand(el) { //获取品牌
+        var catId = el.val();
+        if(catId!=''){
+            $.ajax({
+                url: '<{url action=topd_ctl_goods@getBrandList}>',
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    "catId": catId
+                },
+                success: function(data){
+                    if(data){
+                        var result = '';
+                        result += '<option value="">全部品牌</option>'
+                        for (var i = 0; i < data.length; i++) {
+                            result += '<option value="'+ data[i].brand_id +'">'+ data[i].brand_name +'</option>';
+                        };
+                        $('.action-select-brand').empty().append(result);
+                    }
+                }
+            });
+        }else{
+            checkNext(el);
+        }
+        istur = true;
+    }
+
+    function getCategory(el) {  //获取分类
+        var catId = el.val();
+        if(catId!=''){
+            $.ajax({
+                url: '<{url action=topd_ctl_goods@getChildrenCatList}>',
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    "cat_id": catId
+                },
+                success: function(data){
+                    if(data.data){
+                        var cat_sec = data.data.options;
+                        var result = '';
+                        for(var i in cat_sec) {
+                            result += '<option value="'+ cat_sec[i].value +'">'+ cat_sec[i].text +'</option>';
+                        }
+                        el.parent().next().next().find('.add-items-select').empty().append(result);
+                        el.parent().next().next().find('.add-items-select').change();
+                    }
+                }
+            });
+        }else{
+            checkNext(el);
+        }
+    }
+
+    function checkNext(el) { //默认为"请选择"
+        var next = el.parent().next().next().find('.add-items-select');
+        if(!next){
+            return false;
+        }else{
+            next.empty().append('<option value="">请选择</option>');
+        };
+        checkNext(next);
+    }
+</script>
+
+<div class="theme-popover-mask"></div>
+<div class="theme-popover">
+    <div class="theme-poptit">
+        <a href="javascript:;" title="关闭" class="close">
+            ×
+        </a>
+        <h3 style="text-align: center; margin-top: 0px;">分享到微信朋友圈</h3>
+    </div>
+    <div class="theme-popbod dform">
+        <img id="tImg" src="" width="200" height="200" alt="二维码加载失败">
+        <p class="footer_open">
+            打开微信，点击底部的“发现”，使用 “扫一扫” 即可将网页分享到我的朋友圈。
+        </p>
+    </div>
+</div>
+<div id="yinchang01" style="display:none">
+    <div class="yinchang">
+        <p class="fenxiao_first">
+            分享到
+        </p>
+        <a id="fenxiaoclose" href="javascript:;" onclick="removeShare(this)">
+            ×
+        </a>
+        <ul class="shareul" id="shareul01">
+            <li>
+                <a href="javascript:;" name="platform" class="weixin">
+                    微信
+                </a>
+            </li>
+            <li>
+                <a href="javascript:;" name="platform" class="qq">
+                    QQ
+                </a>
+            </li>
+            <li>
+                <a href="javascript:;" name="platform" class="qqzone">
+                    QQ空间
+                </a>
+            </li>
+            <li>
+                <a href="javascript:;" name="platform" class="xinlang">
+                    新浪微博
+                </a>
+            </li>
+            <li>
+                <a href="javascript:;" name="platform" class="tengxun">
+                    腾讯微博
+                </a>
+            </li>
+            <li>
+                <a href="javascript:;" name="platform" class="renren">
+                    人人网
+                </a>
+            </li>
+            <li>
+                <a href="javascript:;" name="platform" class="yijiana">
+                    一键分享
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>

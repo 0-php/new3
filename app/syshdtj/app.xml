@@ -1,0 +1,37 @@
+<app>
+    <name>分角色提成报表模块</name>
+    <type>service</type>
+    <description>提供恒大微购各角色报表统计功能</description>
+    <author>
+        <name>恒大微购-技术部</name>
+        <email>jsb@hdvg.tv</email>
+        <url>http://www.hdvg.tv</url>
+    </author>
+
+    <version>0.1.1</version>
+    <license>hdvg license</license>
+
+    <parent_model_class>dbeav_model</parent_model_class>
+
+    <depends>
+        <app>desktop</app>
+        <app>entermembercenter</app>
+        <app>site</app>
+        <app>system</app>
+        <app>syscategory</app>
+        <app>syslogistics</app>
+        <app>sysshop</app>
+        <app>sysitem</app>
+        <app>sysuser</app>
+        <app>systrade</app>
+        <app>ectools</app>
+        <app>search</app>
+        <app>sysdecorate</app>
+        <app>toputil</app>
+        <app>topshop</app>
+        <app>sysconf</app>
+        <app>sysclearing</app>
+    </depends>
+
+</app>
+

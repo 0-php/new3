@@ -1,0 +1,586 @@
+<!--代理商注册页面Begin-->
+<div class="tableform">
+	<form id="agent_form" name="agent_form" action="?app=agent&ctl=admin_agent&act=saveagent"  method="post">
+		<div class="division">
+			<table width="100%" cellspacing="0" cellpadding="0" border="0">
+				<tbody>
+					<tr>
+						<th><em class="red">代理商注册信息</em></th>
+					</tr>
+					<tr>
+						<th><{t}>代理商用户名<{/t}></th>
+						<td><{input type="text" vtype="required"  name="seller[agent_username]"  onblur="usernameTxt(this)"}><span id="span_username"></span></td>
+					</tr>
+
+					<tr>
+						<th><{t}>代理商名称：<{/t}></th>
+						<td><{input type="text"  vtype="required" name="seller[agent_name]"}></td>
+					</tr>
+					<tr>
+						<th><{t}>用户登录密码：<{/t}></th>
+						<td><{input type="password"  vtype="required"  name="seller[agent_pwd]"}> </td>
+					</tr>
+					<tr>
+						<th><{t}>确认密码：<{/t}></th>
+						<td><{input type="password"   name="seller[agent_pwd_confirm]"}>  </td>
+					</tr>
+					<tr>
+						<th><{t}>代理级别：<{/t}></th>
+						<td>
+							<select name="seller[agent_grade]" id="sel" class="agent_grade" vtype="required" onchange="agent_grade(this)">
+								<option value="no">请选择代理级别</option>
+								<option value="省">省代理</option>
+								<option value="市">市代理</option>
+								<option value="县">县代理</option>
+							</select>
+						</td>
+					</tr>
+					<tr><th><font color="gray">已选代理区域</font></th><td><span id="span_agent_area" name="span_agent_area"></span></td></tr>
+					<tr>
+
+						<th><{t}>代理区域:<{/t}></th>
+						<td class="area">
+
+							<!--  <{html_options name="b" options=$corpcode}> -->
+							<select name="province"  multiple="multiple" size="10" vtype="required" onchange="province_change(this)">
+								<option selected="selected">请选择代理区域</option>
+								<{foreach from=$corpcode item=code key=key}>
+								<option value="<{$code.id}>"  > <{$code.value}></option>
+								<{/foreach}>
+							</select>
+
+							<span id="selector"></span>
+
+							<span id="selector_country"></span>
+							<{input type="hidden"   name="seller[hid_agent_province]" id="hid_agent_province" value=""}>  
+							<{input type="hidden"   name="seller[hid_agent_province_Name]" id="hid_agent_province_Name" value=""}>  
+							
+							<{input type="hidden"   name="seller[hid_agent_city]" id="hid_agent_city" value=""}> 
+							<{input type="hidden"   name="seller[hid_agent_city_Name]" id="hid_agent_city_Name" value=""}> 
+
+							<{input type="hidden"   name="seller[hid_agent_country]" id="hid_agent_country" value=""}> 
+							<{input type="hidden"   name="seller[hid_agent_country_Name]" id="hid_agent_country_Name" value=""}> 
+							<span id="span_area"><input type="button"   name="btn_area" id="btn_area" value="添加代理区域"  onclick="area_submit(this)"/></span>
+							
+							
+						</td>
+
+
+					</tr>
+					
+					<tr>
+						<th><em class="red">代理商信息</em></th>
+					</tr>
+					<tr>
+						<th><{t}>代理商姓名：<{/t}></th>
+						<td><{input type="text"  vtype="required" name="seller[agentmsg_name]"}></td>
+					</tr>
+					<tr>
+						<th><{t}>代理商所在地址：<{/t}></th>
+						<td><{input type="text"  name="seller[agentmsg_address]"}></td>
+					</tr>
+					<tr>
+						<th><{t}>代理商手机号：<{/t}></th>
+						<td><{input type="text"   name="seller[agentmsg_mobile]"}> </td>
+					</tr>
+					<tr>
+						<th><{t}>代理商邮箱：<{/t}></th>
+						<td><{input type="text"  name="seller[agentmsg_email]"}></td>
+					</tr>
+					<tr>
+						<th><{t}>注册时间<{/t}></th>
+						<td><{input type="date" vtype="date" name="seller[agentmsg_register_time]" }></td>
+					</tr>
+
+				</tbody>
+			</table>
+		</div>
+
+		<table cellspacing="0" cellpadding="0" class="table-action">
+			<tbody>
+				<tr valign="middle">
+					<td>
+						<{assign var="___c"  value='确定退出?'|t:'agent'}>
+
+						<{button label="保存并关闭窗口"|t:'agent' class="btn-primary" type="button"  onclick="submitForm(event,2)"}>
+
+						<{button label="关  闭"|t:'content' class="btn-secondary" type="button" isclosedialogbtn="1"}>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</form>
+</div>
+<!--代理商注册页面End-->
+<script>
+	var submitForm = function (event,sign){
+		var _form=$('agent_form');
+		switch (sign){
+			case 1:
+			var target={
+				onComplete:function(){
+					location.reload();
+				}};
+				break;
+				case 2:
+				var target={
+					onComplete:function(rs){
+						if(rs&&!!JSON.decode(rs).success){
+							window.finderGroup['<{$env.get.finder_id}>'].refresh();
+							_form.getParent('.dialog').retrieve('instance').close();
+						}
+					}};
+					break;
+				}
+				_form.store('target',target);
+				if(confirm('是否保存?')) {
+					_form.fireEvent('submit',new Event(event));
+				}
+			};
+
+			function province_change(obj) {
+				if($('sel').value=="no")
+				{
+					alert("请先选择代理级别");
+				}
+				else
+				{
+					//alert($('#selector_country').html());
+
+					/*如果省份变动，则移除县级的select框*/
+				    $('selector_country').style.visibility="hidden";
+				    //$('selector_country').remove();
+				    $('hid_agent_city').value="";
+				    $('hid_agent_city_Name').value="";
+				    $('hid_agent_country').value="";
+				    $('hid_agent_country_Name').value=""
+
+
+				new Request({
+					url: "?app=agent&ctl=admin_agent&act=province",
+					update:this.value,
+					onComplete:function(rs){
+
+						rs = JSON.decode(rs);
+
+						var province_txt;
+						var i = 0;
+						var arr ='<select id="city"  name="city"  multiple="multiple" size="10"  onchange="City_change(this)">';  
+						for(var s in rs)
+						{ 
+
+							if(rs[s].value)
+							{
+								arr+= '<option ' +'" value="' +   rs[s].id + '">' + rs[s].value + '</option>'; 
+							}
+							i++;
+							if(i == 1)
+							{
+								province_txt = rs[s].parentId;
+
+							}
+						}
+						arr+='</select>';
+
+						$('selector').setHTML(arr);
+						if(province_txt.substr(0,4)=="1101" || province_txt.substr(0,4)=="1201" || province_txt.substr(0,4)=="3101"  || province_txt.substr(0,4)=="5001")
+						{
+							//如果是直辖市，则将返回的编码加入到存放普通市的隐藏框中
+							$('hid_agent_city').value =  province_txt;
+							$('hid_agent_city_Name').value = rs.provinceName ;
+							$('hid_agent_province').value="";
+							$('hid_agent_province_Name').value="";
+						}else
+						{
+							/*if($('hid_agent_province').value)*/
+							$('hid_agent_province').value =  province_txt;
+							$('hid_agent_province_Name').value = rs.provinceName ;
+						}
+
+
+						if(province_txt.substr(0,4)=="1101" || province_txt.substr(0,4)=="1201" || province_txt.substr(0,4)=="3101"  || province_txt.substr(0,4)=="5001")
+						{
+							 $('selector_country').style.visibility="hidden";
+
+
+						}
+						
+						
+					}
+				}).send('provinceName=' + obj.value);
+			}
+		}
+
+		function City_change(obj) {
+			$('selector_country').style.visibility="visible";
+			$('hid_agent_country').value="";
+			$('hid_agent_country_Name').value=""
+			new Request({
+				url: "?app=agent&ctl=admin_agent&act=city",
+				update:this.value,
+				onComplete:function(rs){
+					rs = JSON.decode(rs);
+					if(rs.cityId == "")
+					{
+						var City_txt;
+						var i = 0;
+						var arr ='<select id="country" name="country"  multiple="multiple" size="10"  onchange="Country_change(this)" >';  
+
+
+						for(var s in rs)
+						{
+							if(rs[s].value)
+							{
+								arr+= '<option ' +' value="' +  rs[s].id + '">' + rs[s].value + '</option>'; 
+							}
+							i++;
+							if(i == 1)
+							{
+								City_txt = rs[s].parentId;
+							}
+						}
+						arr+='</select>';
+
+             // $arr+='<option id=' + rs[s].id + ' value='+ '"' + rs[s].value + rs[s].id '">' + rs[s].value + '</option>' + '<br/>'; 
+              //$('hid_agent_city').value = rs.cityName + City_txt;
+
+              if(City_txt.substr(0,4)=="1101" || City_txt.substr(0,4)=="1201" || City_txt.substr(0,4)=="3101"  || City_txt.substr(0,4)=="5001")
+						{
+							//如果是直辖市，则将返回的编码加入到存放普通市的隐藏框中
+							$('hid_agent_country').value =  City_txt;
+							$('hid_agent_country_Name').value = rs.cityName ;
+						}
+						else
+						{
+							 $('hid_agent_city').value = City_txt;
+             				 $('hid_agent_city_Name').value = rs.cityName;
+
+						}
+             
+              $('selector_country').setHTML(arr);
+          }
+          else
+          {
+
+              if(rs.cityId.substr(0,4)=="1101" || rs.cityId.substr(0,4)=="1201" || rs.cityId.substr(0,4)=="3101"  || rs.cityId.substr(0,4)=="5001")
+						{
+							//如果是直辖市，则将返回的编码加入到存放普通市的隐藏框中
+							$('hid_agent_country').value =  rs.cityId;
+							$('hid_agent_country_Name').value = rs.cityName ;
+							 $('selector_country').style.visibility="hidden";
+						}
+						else
+						{
+
+							$('hid_agent_city').value = rs.cityId;
+          					$('hid_agent_city_Name').value = rs.cityName;
+
+						}
+
+
+          	
+          }
+      }
+  }).send('cityName=' + obj.value);
+}
+
+
+
+function Country_change(obj) {
+
+				// new Request({
+				// 	url: "?app=agent&ctl=admin_agent&act=country",
+				// 	update:this.value,
+				// 	onComplete:function(rs){
+				// 		rs = JSON.decode(rs);
+				// 		alert(rs.countryName);
+				// 	$('hid_agent_country').value = rs.countryName + rs.countryId;
+
+
+    //      }
+    //  }).send('countryName=' + obj.value);
+			// alert(obj[obj.options.selectedIndex].value);
+			// alert(obj[obj.options.selectedIndex].innerHTML);
+			//$('hid_agent_country').value = obj[obj.options.selectedIndex].innerHTML + obj[obj.options.selectedIndex].value;
+			$('hid_agent_country').value = obj[obj.options.selectedIndex].value;
+			$('hid_agent_country_Name').value = obj[obj.options.selectedIndex].innerHTML;
+		}
+
+		//根据代理商级别，来触动select框
+		function agent_grade(obj)
+		{
+				//alert(obj[obj.options.selectedIndex].innerHTML);
+				//alert($('sel').options.selectedIndex.innerHTML);
+				/*if($('sel').value == "省")
+				{
+					
+					// $('selector').style.visibility="hidden";//隐藏;
+		            // $('selector_country').style.visibility="hidden";//隐藏;
+		        }
+
+		        else if($('sel').value == "市")
+		        {
+		        	//$('selector_country').remove();
+					// $('selector_country').style.visibility="hidden";//隐藏;
+					// $('selector').style.visibility="visible";//隐藏;
+				}
+				else if($('sel').value == "县")
+				{
+					$('selector_country').style.visibility="visible";//隐藏;
+					$('selector').style.visibility="visible";//隐藏;
+				}*/
+				// new Request({
+				// 	url: "?app=agent&ctl=admin_agent&act=agent_grade",
+				// 	update:this.value,
+				// 	onComplete:function(rs){
+				// 		rs = JSON.decode(rs);
+				// 		if(rs == "省")
+				// 		{
+				// 			//alert($('sel').value);
+				// 			 var opts=$('sel').options; 
+				// 			 var selIndex=$('sel').options.selectedIndex; 
+				// 			 alert(selIndex);
+				// 			 alert(selIndex.text);
+				// 			 alert(opts[selIndex]);
+
+				// 			// $('selector').remove();
+				// 			 //$('selector_country').remove();
+
+				// 			 $('selector').style.visibility="hidden";//隐藏;
+				// 			 $('selector_country').style.visibility="hidden";//隐藏;
+
+				// 			//var area=document.getElementByIdx("area");var a=new Option();a.value="xxx";a.text="yyy";area.options.add(a);
+
+
+
+
+
+
+				// 			// $('city').options.add(a);
+
+				// 			 // $('#city').value = "111111111";
+				// 			 // alert($('city').value);
+				// 			 // $('country').value="";
+				// 			/* alert($('selector'));
+				// 			 $('selector').setHTML("11111111111");
+				// 			 $('selector_country').setHTML("1111111");*/
+
+				// 		}
+				// 		else if(rs == "市")
+				// 		{
+				// 			$('selector').style.visibility="visible";
+				// 			$('selector_country').style.visibility="hidden";//隐藏;
+				// 			$('country').value="";
+				// 			$('selector_country').setHTML("");
+
+				// 		}
+				// 		else
+				// 		{
+				// 			$('selector').style.visibility="visible";
+				// 			$('selector_country').style.visibility="visible";
+				// // 		}
+    //      }
+    //  }).send('agent_grade=' + obj.value);
+}
+
+//提交代理级别按钮
+function area_submit(obj)
+{
+	//如果是县代理，则只能选县
+	//如果是市代理，则不能选省
+	if($('sel').value == "县")
+	{  
+		if($('hid_agent_country').value == "")
+		{
+			alert("您是县代理，请把代理区域具体到县");
+		}else
+		{
+		
+			var code="";
+			//获取所选代理区域编码，用于判断该区域是否被代理
+			code = $('hid_agent_country').value ;
+	
+			new Request({
+				url: "?app=agent&ctl=admin_agent&act=area_submit",
+				update:this.value,
+				onComplete:function(rs){
+				rs = JSON.decode(rs);
+				if (rs == "0") {
+					alert("该区域已被代理，请选择其它区域代理");
+				}
+				else
+				{    
+					var span=document.createElement("span");  
+					span.style.color="blue";  
+					/*
+				    返回最后一级名称和编码  
+				    */
+			   		var area = $('hid_agent_country').value + $('hid_agent_country_Name').value;
+
+			    	var areaCheck = '<div><input type="checkbox" class="checkarea" name="seller[agent_area][]" checked="checked" onclick="area_check(this)" value="' +area +'" />' + $('hid_agent_province_Name').value  + $('hid_agent_city_Name').value+ $('hid_agent_country_Name').value+'</div>';
+			    	$('hid_agent_country').value = "";
+			   		 $('hid_agent_country_Name').value = "";
+			    
+			    	span.innerHTML= areaCheck;  
+			    	
+
+			   	 $('span_agent_area').appendChild(span);  
+			   	 
+			}
+
+		}
+	}).send('code=' + code +'=' + $('sel').value);
+
+}
+}else  if($('sel').value =="市")
+{
+	if( $('hid_agent_city').value=="")
+	{
+		alert("您是市代理，请把代理区域具体到市或特级县");
+	}else
+	{
+		var code="";
+		//获取所选代理区域编码，用于判断该区域是否被代理
+		if($('hid_agent_country').value != "")
+		{
+			code = $('hid_agent_country').value ;
+			
+		}else if($('hid_agent_city').value != "")
+		{
+			code = $('hid_agent_city').value ;
+		}
+
+		new Request({
+		url: "?app=agent&ctl=admin_agent&act=area_submit",
+		update:this.value,
+		onComplete:function(rs){
+
+			rs = JSON.decode(rs);
+			if (rs == "0") {
+				alert("该区域已被代理，请选择其它区域代理");
+			}
+			else
+			{
+				var span=document.createElement("span");  
+				span.style.color="blue";  
+				/*
+			    返回最后一级名称和编码  
+			    */
+			    if($('hid_agent_country').value != "")
+			    {
+			    	var area = $('hid_agent_country').value + $('hid_agent_country_Name').value;
+			    	var areaCheck = '<div><input type="checkbox" class="checkarea" name="seller[agent_area][]" checked="checked" onclick="area_check(this)" value="' +area +'" />' + $('hid_agent_province_Name').value  + $('hid_agent_city_Name').value+ $('hid_agent_country_Name').value+'</div>';
+			    	$('hid_agent_country').value = "";
+			    	$('hid_agent_country_Name').value = "";
+
+			    }
+			    else  if($('hid_agent_city').value != "")
+			    {
+			    	var area =  $('hid_agent_city').value + $('hid_agent_city_Name').value;
+			    	var areaCheck = '<div><input type="checkbox" class="checkarea" name="seller[agent_area][]" checked="checked" onclick="area_check(this)" value="' +area +'" />' + $('hid_agent_province_Name').value  + $('hid_agent_city_Name').value+ $('hid_agent_country_Name').value+'</div>';
+			    	$('hid_agent_city').value="";
+			    	$('hid_agent_city_Name').value="";
+			    }
+			    span.innerHTML= areaCheck;  
+
+			    $('span_agent_area').appendChild(span);  
+
+			}
+
+		}
+	}).send('code=' + code +'=' + $('sel').value);
+}
+}else if($('sel').value =="省")
+{
+	var code="";
+	//获取所选代理区域编码，用于判断该区域是否被代理
+	if($('hid_agent_country').value != "")
+	{
+		code = $('hid_agent_country').value ;
+	}else if($('hid_agent_city').value != "")
+	{
+		code = $('hid_agent_city').value ;
+	}else  if($('hid_agent_province').value != "")
+	{
+		code =$('hid_agent_province').value ;
+	}
+	new Request({
+		url: "?app=agent&ctl=admin_agent&act=area_submit",
+		update:this.value,
+		onComplete:function(rs){
+
+			rs = JSON.decode(rs);
+			if (rs == "0") {
+				alert("该区域已被代理，请选择其它区域代理");
+			}
+			else
+			{
+				var span=document.createElement("span");  
+				span.style.color="blue";  
+				/*
+			    返回最后一级名称和编码  
+			    */
+			    if($('hid_agent_country').value != "")
+			    {
+			    	var area = $('hid_agent_country').value + $('hid_agent_country_Name').value;
+			    	var areaCheck = '<div><input type="checkbox" class="checkarea" name="seller[agent_area][]" checked="checked" onclick="area_check(this)" value="' +area +'" />' + $('hid_agent_province_Name').value  + $('hid_agent_city_Name').value+ $('hid_agent_country_Name').value+'</div>';
+			    	$('hid_agent_country').value = "";
+			    	$('hid_agent_country_Name').value = "";
+			    }
+			    else  if($('hid_agent_city').value != "")
+			    {
+			    	var area =  $('hid_agent_city').value + $('hid_agent_city_Name').value;
+			    	var areaCheck = '<div><input type="checkbox" class="checkarea" name="seller[agent_area][]" checked="checked" onclick="area_check(this)" value="' +area +'" />' + $('hid_agent_province_Name').value  + $('hid_agent_city_Name').value+ $('hid_agent_country_Name').value+'</div>';
+			    	$('hid_agent_city').value="";
+			    	$('hid_agent_city_Name').value="";
+			    }
+			    else if($('hid_agent_province').value != "")
+			    {
+			    	var area = $('hid_agent_province').value  + $('hid_agent_province_Name').value;
+			    	var areaCheck = '<div><input type="checkbox" class="checkarea" name="seller[agent_area][]" checked="checked" onclick="area_check(this)" value="' +area +'" />' + $('hid_agent_province_Name').value  + $('hid_agent_city_Name').value+ $('hid_agent_country_Name').value+'</div>';
+			    	$('hid_agent_province').value="";
+			    	$('hid_agent_province_Name').value="";
+			    }
+			    span.innerHTML= areaCheck;  
+
+			    $('span_agent_area').appendChild(span);  
+
+			}
+
+		}
+	}).send('code=' + code +'=' + $('sel').value);
+}
+
+
+
+}
+
+function  usernameTxt(obj)
+{
+	new Request({
+		url: "?app=agent&ctl=admin_agent&act=checkUsername",
+		update:this.value,
+		onComplete:function(rs){
+			rs = JSON.decode(rs);
+			var span_username = '<font color="red">' + rs+ '</font>';
+			if(rs == "用户名已被注册")
+			{
+				$('span_username').setHTML(span_username);
+			}else
+			{
+				$('span_username').setHTML("");
+			}
+
+		}
+	}).send('userName=' + obj.value);
+
+}
+
+function area_check(obj)
+{
+	obj.parentNode.remove(obj);
+}
+
+
+
+</script>

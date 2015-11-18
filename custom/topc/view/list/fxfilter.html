@@ -1,0 +1,16 @@
+<div class="msccentersan">
+    <input type="text" class="inpleft" value="<{$key}>" name="keyword1" id="keyword1" />
+    <input type="button" class="inpright" onclick="tz();" value="店内搜索" style="cursor:pointer;"/>
+    <input type="button" class="inpright" onclick="tz1();" value="查看全部" style="cursor:pointer;"/>
+</div>
+<script>
+    function tz(){
+        var key = $("#keyword1").val();
+        var str = window.location.origin + window.location.pathname + "?shopId=<{$shopId}>&n="+key;
+        window.location.href = str;
+    }
+    function tz1(){
+        var str = window.location.origin + window.location.pathname + "?shopId=<{$shopId}>";
+        window.location.href = str;
+    }
+</script>

@@ -1,0 +1,18 @@
+<form method="post" action="?app=topd&amp;ctl=admin_shop&amp;act=license">
+  <div class="tableform tableform-tabs">
+    <div class="tabs-wrap clearfix">
+      <ul>
+        <li class="tab current"><span>公众店铺配置</span></li>
+      </ul>
+    </div>
+      <div style="margin-bottom: 10px;">
+          <H3>开店协议：</H3>
+          <{input type=html name='license' value=$license}>
+      </div>
+      <div style="margin-bottom: 10px;">
+          <H3>开店费用：</H3>
+          RMB: <{input type='text' name='rmb' value=$rmb vtype='required'}> 元
+      </div>
+    <div class="table-action"><button type="submit" class="btn btn-primary"><span><span>确定</span></span></button></div>
+</div>
+</form>

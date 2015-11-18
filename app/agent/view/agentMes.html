@@ -1,0 +1,85 @@
+<div class="box box-primary">
+  <div class="box-header">
+      <h3 class="box-title">代理商信息</h3>
+  </div>
+  <div class="box-body">
+    <dl class="dl-horizontal merchant-info">
+      <dt>用户名：</dt>
+      <dd><{$oaccount[0].agent_username}></dd>
+      <dt>名称：</dt>
+      <dd><{$oaccount[0].agent_name}></dd>
+       <dt>代理级别</dt>
+      <dd><{$oaccount[0].agent_grade}></dd>
+      <dt>代理区域：</dt>
+      <dd><{$oaccount[0].agent_area}></dd>
+       <dt>代理商姓名</dt>
+      <dd><{$oagentmsg[0].agentmsg_name}></dd>
+      <dt>代理商所在地址：</dt>
+      <dd><{$oagentmsg[0].agentmsg_address}></dd>
+       <dt>电话号码</dt>
+      <dd><{$oagentmsg[0].agentmsg_mobile}></dd>
+      <dt>邮箱：</dt>
+      <dd><{$oagentmsg[0].agentmsg_email}></dd>
+       <dt>注册时间：</dt>
+      <dd><{$oagentmsg[0].agentmsg_register_time}></dd>
+    </dl>
+  </div>
+</div>
+
+<!-- <form action="index.php?app=agent&ctl=admin_agent&act=saveagent" method="post">
+  <input type="hidden" name="item[agent_id]" value="<{$item.agent_id}>" id="gEditor-GId-input"/>
+
+  <table width="100%" border="0" cellpadding="0" cellspacing="0" class="gridlist">
+    <tbody>
+
+
+      <table width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tbody>
+          <tr>
+            <th><em class="red">代理商信息</em></th>
+          </tr>
+          <tr>
+            <th><{t}>代理商用户名<{/t}></th>
+            <td><{input type="text" name="seller[agent_username]" value=$oaccount[0].agent_username }></td>
+          </tr>
+          <tr>
+            <th><{t}>代理商名称：<{/t}></th>
+            <td><{input type="text"  name="seller[agent_name]" value=$oaccount[0].agent_name}></td>
+          </tr>
+          <tr>
+            <th><{t}>代理级别：<{/t}></th>
+            <td><{input type="text"   name="seller[agent_grade]" value=$oaccount[0].agent_grade}></td>
+          </tr>
+          <tr>
+            <th><{t}>代理区域:<{/t}></th>
+           <td><{input type="text"   name="seller[agent_area]" value=$oaccount[0].agent_area}></td>
+        </tr>
+
+         <tr>
+            <th><em class="red">代理商信息</em></th>
+          </tr>
+          <tr>
+            <th><{t}>代理商姓名：<{/t}></th>
+            <td><{input type="text"   name="seller[agentmsg_name]" value=$oagentmsg[0].agentmsg_name}></td>
+          </tr>
+          <tr>
+            <th><{t}>代理商所在地址：<{/t}></th>
+            <td><{input type="text"  name="seller[agentmsg_address]" value=$oagentmsg[0].agentmsg_address}></td>
+          </tr>
+          <tr>
+            <th><{t}>代理商手机号：<{/t}></th>
+            <td><{input type="text"   name="seller[agentmsg_mobile]"  value=$oagentmsg[0].agentmsg_mobile}> </td>
+          </tr>
+              <tr>
+            <th><{t}>代理商邮箱：<{/t}></th>
+            <td><{input type="text"  name="seller[agentmsg_email]" value=$oagentmsg[0].agentmsg_email}></td>
+          </tr>
+          <tr>
+            <th><{t}>注册时间<{/t}></th>
+            <td><{input type="text" name="seller[agentmsg_register_time]" value=$oagentmsg[0].agentmsg_register_time}></td>
+          </tr>
+    
+ 
+    </tbody>
+  <table>
+</form> -->

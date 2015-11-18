@@ -1,0 +1,23 @@
+<table class="table table-bordered">
+    <tr class="info">
+        <td>开店进度</td><td>日期</td><td>提示</td>
+    </tr>
+    <tr>
+        <td>您已经提交了开店申请</td>
+        <td><{$fenxiao_time|cdate}></td>
+        <td>等待支付</td>
+    </tr>
+    <{if $fenxiao_paytime != 0}>
+    <tr>
+        <td>您已经成功支付</td>
+        <td><{$fenxiao_paytime|cdate}></td>
+        <td>等待审核</td>
+    </tr>
+    <{/if}>
+    <{if $fenxiao_zt == 'finish'}>
+    <tr>
+        <td colspan="2">您的店铺已经成功开通</td>
+        <td><a href="<{url action=topd_ctl_index@index}>">进入店铺</a></td>
+    </tr>
+    <{/if}>
+</table>

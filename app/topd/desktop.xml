@@ -1,0 +1,19 @@
+<desktop>
+    <permissions>
+        <!--公众店铺-->
+        <permission id="fenxiao" display='true' parent='0' workground='sysuser.wrokground.fenxiao'>公众店铺管理</permission>
+    </permissions>
+
+    <workground name="公众店铺" id="topd.wrokground.fenxiao" controller="admin_user" action="index" order='30'>
+        <menugroup name="公众店铺">
+            <menu controller='admin_shop' action='license' permission='fenxiao' display='true' order='20'>开店配置</menu>
+            <menu controller='admin_shop' action='index' permission='fenxiao' display='true' order='30'>开店申请列表</menu>
+        </menugroup>
+        <menugroup name="店铺通知">
+            <menu controller='admin_shopnotice' action='index' permission='fenxiao' display='true' order='41'>公众店铺通知列表</menu>
+        </menugroup>
+    </workground>
+
+</desktop>
+
+

@@ -1,0 +1,71 @@
+<meta charset="UTF-8">
+<title><{$topd.seo.title}></title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="author" content="shopex UED Team">
+<meta name="keywords" content="<{$topd.seo.keywords}>">
+<meta name="description" content="<{$topd.seo.description}>">
+
+<link rel="icon" href="<{$icon}>" type="image/x-icon" />
+<link rel="shortcut icon" href="<{$icon}>" type="image/x-icon" />
+
+<{if config::get('app.debug', false)}>
+<!-- common styles -->
+<{css app="topd" src="theme.css"}>
+<{css app="topd" src="font-awesome.css"}>
+<{css app="topd" src="ionicons.css"}>
+<!-- plugins -->
+<{css app="topd" src="bootstrap-validator.css"}>
+<{css app="topd" src="bootstrap-daterangepicker.css"}>
+<{css app="topd" src="bootstrap-datepicker.css"}>
+<{css app="topd" src="editor/summernote.css"}>
+<!-- common scripts -->
+<{script app="topd" src="lib/jquery.js"}>
+<{script app="topd" src="lib/bootstrap.js"}>
+<!-- plugins -->
+<{script app="topd" src="lib/bootstrap-modal.js"}>
+<{script app="topd" src="lib/bootstrap-validator.js"}>
+<{script app="topd" src="lib/daterangepicker.js"}>
+<{script app="topd" src="lib/datepicker.js"}>
+<{script app="topd" src="lib/jquery.flot.js"}>
+<{script app="topd" src="lib/jquery.flot.time.js"}>
+<!-- editor -->
+<{script app="topd" src="lib/editor/summernote.js"}>
+<{script app="topd" src="lib/editor/summernote-zh-CN.js"}>
+<!-- main scripts -->
+<{script app="topd" src="tools.js"}>
+<{script app="topd" src="imageupload.js"}>
+<{script app="topd" src="app.js"}>
+<{else}>
+<{css app="topd" src="theme.min.css"}>
+<{css app="topd" src="plugins.min.css"}>
+<{script app="topd" src="lib/jquery.min.js"}>
+<{script app="topd" src="lib/plugins.min.js"}>
+<{script app="topd" src="main.min.js"}>
+<{/if}>
+<script>
+var imageuploadUrl = "<{url action=topd_ctl_shop_info@loadImageModal}>";
+
+(function() {
+  var explorer = window.navigator.userAgent ;
+  //ie
+  if (explorer.indexOf("MSIE") >= 0) {
+    window.location.href= "http://localhost/bbc/index.php/shop/browserTip.html"
+  }
+  //firefox
+  else if (explorer.indexOf("Firefox") >= 0) {
+
+  }
+  //Chrome
+  else if(explorer.indexOf("Chrome") >= 0){
+
+  }
+  //Opera
+  else if(explorer.indexOf("Opera") >= 0){
+    window.location.href= "http://localhost/bbc/index.php/shop/browserTip.html"
+  }
+  //Safari
+  else if(explorer.indexOf("Safari") >= 0){
+
+  }
+})()
+</script>

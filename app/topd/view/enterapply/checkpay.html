@@ -1,0 +1,72 @@
+<section class="content">
+  <form action="<{url action=topd_ctl_paycenter@index}>" method="post" class="form-horizontal" role="form">
+    <fieldset>
+      <div class="panel panel-outter">
+        <div class="panel-body">
+          <div class="col-md-10">
+            <div>
+              <legend id="license">基本信息</legend>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-md-3"><span class="text-red">*</span>真实姓名：</label>
+              <div class="control-label col-md-3"><{$fenxiaodp.fenxiao_name}></div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-md-3"><span class="text-red">*</span>所在区域：</label>
+              <div class="control-label col-md-3"><{$fenxiaodp.regions}></div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-md-3"><span class="text-red">*</span>身份类型：</label>
+              <div class="control-label col-md-3"><{$fenxiaodp.fenxiao_type}></div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-md-3"><span class="text-red">*</span>身份证号：</label>
+              <div class="control-label col-md-3"><{$fenxiaodp.fenxiao_cid}></div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-md-3"><span class="text-red">*</span>联系手机：</label>
+              <div class="control-label col-md-3"><{$fenxiaodp.fenxiao_call}></div>
+            </div>
+              <div class="form-group">
+                  <label class="control-label col-md-3"><span class="text-red">*</span>支付费用：</label>
+                  <div class="control-label col-md-3">RMB：<{$fenxiaodp.rmb|cur}> 元</div>
+              </div>
+            <div class="form-group">
+              <label class="control-label col-md-3"><span class="text-red">*</span>支付方式：</label>
+              <div class="control-label col-md-3">
+                <select id="vip" name="isvip">
+                  <option value="0">在线支付</option>
+                  <option value="1">恒大微购VIP开店卡</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group vip">
+              <label class="control-label col-md-3"><span class="text-red">*</span>VIP开店卡卡号：</label>
+              <div class="control-label col-md-3"><input type="text" name="vip_card"></div>
+            </div>
+            <div class="form-group vip">
+              <label class="control-label col-md-3"><span class="text-red">*</span>VIP开店卡密码：</label>
+              <div class="control-label col-md-3"><input type="text" name="vip_pas"></div>
+            </div>
+              <div class="form-group" style="text-align: center; margin: auto;">
+                  <button type="submit" class="btn btn-primary">立即支付</button>
+              </div>
+          </div>
+      </div></div>
+    </fieldset>
+  </form>
+</section>
+<style>
+  .vip{
+    display: none;
+  }
+</style>
+<script>
+  $("#vip").change(function(){
+    if($("#vip").val() == 1){
+      $(".vip").show();
+    }else{
+      $(".vip").hide();
+    }
+  });
+</script>

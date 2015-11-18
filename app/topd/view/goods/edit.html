@@ -1,0 +1,168 @@
+<{include file="topd/goods/Share.html"}>
+<div class="panel-heading">
+    <form class="form-horizontal" action="<{url action=topd_ctl_goods@add}>" method="post" >
+        <input type="hidden" id="status" name="status" value="<{$status}>">
+        <div class="form-group">
+            <div class="col-xs-10">
+                <span class="form-text">一级分类</span>
+                <div class="col-sm-2">
+                    <select class="form-control add-items-select" id="onecat" name="onecat">
+                        <option value="">请选择</option>
+                        <{foreach from=$shopCatList item=catlist}>
+                        <option value="<{$catlist.cat_id}>" label="<{$catlist.cat_name}>" <{if $filter['onecat'] == $catlist.cat_id}>selected<{/if}> ><{$catlist.cat_name}></option>
+                        <{/foreach}>
+                    </select>
+                </div>
+                <span class="form-text">二级分类</span>
+                <div class="col-sm-2">
+                    <select class="form-control add-items-select" id="twocat" name="twocat">
+                        <option value="">请选择</option>
+                        <{foreach from=$twocat item=catlist}>
+                        <option value="<{$catlist.cat_id}>" label="<{$catlist.cat_name}>" <{if $filter['twocat'] == $catlist.cat_id}>selected<{/if}> ><{$catlist.cat_name}></option>
+                        <{/foreach}>
+                    </select>
+                </div>
+                <span class="form-text">三级分类</span>
+                <div class="col-sm-2">
+                    <select class="form-control add-items-select action-select-category" id="threecat">
+                        <option value="">请选择</option>
+                        <{foreach from=$threecat item=catlist}>
+                        <option value="<{$catlist.cat_id}>" label="<{$catlist.cat_name}>" <{if $filter['cat_id'] == $catlist.cat_id}>selected<{/if}> ><{$catlist.cat_name}></option>
+                        <{/foreach}>
+                    </select>
+                </div>
+                <span class="form-text">品牌</span>
+                <div class="col-sm-3">
+                    <select class="form-control add-items-select action-select-brand" id="onecatbrand">
+                        <option value="">全部品牌</option>
+                    </select>
+                </div>
+            </div>
+            <input type="hidden" id="cat_id" name="cat_id" value="<{$filter['cat_id']}>">
+            <input type="hidden" id="brand_id" name="brand_id" value="<{$filter['brand_id']}>">
+        </div>
+
+        <div class="form-group">
+            <div class="col-xs-10">
+                <span class="form-text">关&nbsp;键&nbsp;字&nbsp;</span>
+                <div class="item-search">
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" name="item_title" id="item_title" value="<{$filter['item_title']}>" placeholder="">
+                    </div>
+                </div>
+                <span class="form-text">价格区间</span>
+                <div class="col-sm-2"><input type="text" class="form-control" data-validate-number="true" min="0" name="min_price" id="min_price" value="<{$filter['min_price']}>"></div>
+                <div style="float: left; line-height: 30px;"> -- </div>
+                <div class="col-sm-2"><input type="text" class="form-control" data-validate-number="true" min="0" name="max_price" id="max_price" value="<{$filter['max_price']}>"></div>
+                <div class="col-sm-2" style="line-height: 30px;">
+                    <button type="submit" class="btn btn-primary">提交</button>
+                    <button type="button" id="reset" class="btn btn-default">重置</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<form action="" method="post" role="form">
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="<{if !$status}>active<{/if}>"><a href="<{url action=topd_ctl_goods@add}>">恒大微购商品库</a></li>
+        <li role="presentation" class="<{if $status=='mysale'}>active<{/if}>"><a href="<{url action=topd_ctl_goods@add status=mysale}>">我的商品</a></li>
+        <li role="presentation" class="<{if $status=='onsale'}>active<{/if}>"><a href="<{url action=topd_ctl_goods@add status=onsale}>">上架商品</a></li>
+        <li role="presentation" class="<{if $status=='instock'}>active<{/if}>"><a href="<{url action=topd_ctl_goods@add status=instock}>">仓库商品</a></li>
+    </ul>
+    <br>
+    <p>
+        <span class="btn btn-default"><input type="checkbox" name="" id="selectAll"> <label for="selectAll">当前页全选</label></span>
+        <{if !$status}>
+        <button type="button" class="btn btn-default text-blue" id="action-onsale">
+            <i class="icon-arrow-left"></i>批量添加到店铺
+        </button>
+        <{else}>
+        <button type="button" class="btn btn-default text-blue" id="action-sj">
+            <i class="icon-arrow-left"></i>批量上架
+        </button>
+        <button type="button" class="btn btn-default text-blue" id="action-xj">
+            <i class="icon-arrow-left"></i>批量下架
+        </button>
+        <button type="button" class="btn btn-default text-blue" id="action-sc">
+            <i class="icon-arrow-left"></i>批量删除
+        </button>
+        <{/if}>
+    </p>
+    <table class="table table-primary table-hover table-goods">
+        <thead>
+        <tr>
+            <td class="col-checkbox"></td>
+            <td class="col-name">商品名称</td>
+            <td>价格(元)</td>
+            <td>佣金(元)</td>
+            <td class="text-center">操作</td>
+        </tr>
+        </thead>
+        <{if $item_list}>
+        <tbody id="data_node">
+        <{foreach from=$item_list item=gitem}>
+        <tr>
+            <td>
+                <label class="checkbox-inline">
+                    <input type="checkbox" name=item_ids value=<{$gitem.item_id}>>&nbsp;
+                </label>
+            </td>
+            <td>
+                <div class="goods">
+                    <a href="<{url action=topc_ctl_item@index item_id=$gitem.item_id}>" target="_blank">
+                        <img src="<{$gitem.image_default_id|default:$image_default_id.S.default_image|storager:'s'}>" alt="">
+                        <{$gitem.title}>
+                    </a>
+                </div>
+            </td>
+            <td><{if $gitem.sx.0.miprice|cur:2 == $gitem.sx.0.maprice|cur:2}>¥<{$gitem.sx.0.miprice|cur:2}><{else}>¥<{$gitem.sx.0.miprice|cur:2}> ~ ¥<{$gitem.sx.0.maprice|cur:2}><{/if}></td>
+            <td><span class="text-orange"><{if $gitem.sx.0.minprice|cur:2 == $gitem.sx.0.maxprice|cur:2}>¥<{$gitem.sx.0.minprice|cur:2}><{else}>¥<{$gitem.sx.0.minprice|cur:2}> ~ ¥<{$gitem.sx.0.maxprice|cur:2}><{/if}></span></td>
+            <td class="text-center">
+                <{if $gitem.goods_zt.goods_zt == 'onsale'}>
+                    <div class="shareParent">
+                        <div class="yijianshare" onclick="shareObj(this,'<{$gitem.title|strip}>','<{url action=topc_ctl_item@index item_id=$gitem.item_id shopId=$userInfo.userId}>','<{$gitem.title}> <{$gitem.sub_title|strip}>','<{$gitem.image_default_id|default:$image_default_id.M.default_image|storager:m}>')">
+                            <a href="javascript:;" class="fenxiao_share">一键推广</a>
+                        </div>
+                    </div>
+                    <a href="javascript:;" onclick="ajax('<{$gitem.item_id}>','ajaxGotoshopxj')"><span onclick="tjdp(this);">下架到仓库</span></a> |
+                    <a href="javascript:;" onclick="ajax('<{$gitem.item_id}>','ajaxGotoshopsc')"><span onclick="tjdp(this);">删除商品</span></a>
+                <{elseif $gitem.goods_zt.goods_zt == 'instock'}>
+                    <a href="javascript:;" onclick="ajax('<{$gitem.item_id}>','ajaxGotoshopsj')"><span onclick="tjdp(this);">上架到店铺</span></a> |
+                    <a href="javascript:;" onclick="ajax('<{$gitem.item_id}>','ajaxGotoshopsc')"><span onclick="tjdp(this);">删除商品</span></a>
+                <{else}>
+                    <a href="javascript:;" onclick="ajax('<{$gitem.item_id}>','ajaxGotoshop')"><span onclick="tjdp(this);">添加到店铺</span></a>
+                <{/if}>
+            </td>
+        </tr>
+        <{/foreach}>
+        </tbody>
+        <{else}>
+        <tbody id="data_node">
+        <tr>
+            <td algin="center" colspan="11">
+                <p class="text-muted well no-shadow text-center">暂无数据</p>
+            </td>
+        </tr>
+        </tbody>
+        <{/if}>
+    </table>
+
+    <{pagers data=$pagers}>
+    <{if $total > 0 }>
+    <span class="page-number">共&nbsp;<em class="text-aqua"><{$total}></em>&nbsp;条记录</span>
+    <{/if}>
+</form>
+<script>
+    $(function() {
+        if ($('.action-select-category').val() != '') {
+            istur = false;
+            $('.action-select-category').change();
+            var sitel = setInterval(function () {
+                if (istur == true) {
+                    $('#onecatbrand').val("<{$filter.brand_id}>");
+                    clearInterval(sitel);
+                }
+            }, 500);
+        }
+    });
+</script>

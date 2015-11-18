@@ -1,0 +1,11 @@
+<desktop>
+    <permissions>
+        <permission id="agent_manage" display='true' parent='0' workground='agent'>代理商管理</permission>
+    </permissions>
+
+    <workground name="代理商" id="agent.workground.setting" controller="admin_agent" action="index" order="205">
+        <menugroup name="代理商管理">
+            <menu controller="admin_agent" permission='agent_manage' action="index" display='true' order='5'>账号列表</menu>
+        </menugroup>
+    </workground>
+</desktop>
