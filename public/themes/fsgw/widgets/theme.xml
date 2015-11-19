@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<theme>
+    <name>恒大微购</name>
+    <platform>PC</platform>
+    <id>hdvg</id>
+    <version>0.1</version>
+    <info>恒大微购模板</info>
+    <author>jsb05@hdvg.com</author>
+    <site>http://www.hdcg.tv</site>
+    <widgets>测试练习</widgets>
+</theme>
